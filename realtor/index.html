@@ -99,28 +99,19 @@
     display: inline-block;
   }
 
-  /* ---------- top bar ---------- */
-  .topbar {
-    position: sticky; top: 0; z-index: 40;
-    backdrop-filter: saturate(1.4) blur(8px);
-    background: color-mix(in srgb, var(--paper) 82%, transparent);
-    border-bottom: 1px solid var(--line);
-  }
-  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-  .brand { font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px; }
-  .brand b { font-weight: 600; }
-  .brand .dot { width: 9px; height: 9px; background: var(--pine); border-radius: 2px; transform: rotate(45deg); flex: none; }
-  .nav-cta {
-    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.03em;
-    text-decoration: none; color: var(--paper);
-    background: var(--pine); padding: 9px 16px; border-radius: 6px;
-    min-height: 44px; display: inline-flex; align-items: center;
-    transition: background .18s ease, transform .18s ease;
-    white-space: nowrap;
-  }
-  .nav-cta:hover { background: var(--pine-bright); transform: translateY(-1px); }
-  .btn:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--pine); outline-offset: 3px; }
-  @media (max-width: 620px) { .nav-cta { display: none; } }
+  /* header */
+  header.site{ position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--line); }
+  header.site .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:14px; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--ink); }
+  .brand .mark{ width:34px; height:34px; flex:0 0 auto; }
+  .brand b{ font-family:var(--serif); font-size:1.18rem; font-weight:600; letter-spacing:-.01em; word-spacing:-.06em; white-space:nowrap; }
+  .brand span{ display:block; font-family:var(--sans); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); font-weight:700; }
+  .header-cta{ display:inline-block; font-family:var(--sans); font-weight:700; font-size:.92rem; text-decoration:none; cursor:pointer; background:var(--pine); color:#fff; padding:10px 18px; border-radius:12px; border:1px solid var(--pine); box-shadow:0 2px 0 rgba(31,92,70,.28); transition:background .15s ease, transform .05s ease; }
+  .header-cta:hover{ background:var(--pine-bright); color:#fff; }
+  .header-cta:active{ transform:translateY(1px); }
+  .header-cta:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .btn:focus-visible{ outline:2px solid var(--pine); outline-offset:3px; }
+  @media(max-width:560px){ .header-cta{ display:none; } }
 
   /* ---------- hero ---------- */
   .hero { padding: clamp(60px, 11vw, 128px) 0 clamp(40px, 7vw, 80px); }
@@ -535,8 +526,14 @@
   .wedge-cta { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 30px; }
   .wedge-note { font-size: 0.9rem; color: var(--ink-faint); max-width: 30ch; line-height: 1.4; }
 
-  footer { border-top: 1px solid var(--line); padding: 30px 0 44px; }
-  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); }
+  /* footer */
+  footer.site{ background:var(--paper); border-top:1px solid var(--line); padding:52px 0; }
+  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px 48px; align-items:flex-start; justify-content:space-between; }
+  footer.site .brand b{ font-size:1.12rem; }
+  footer.site .fine{ color:var(--ink-faint); font-size:.9rem; max-width:34ch; margin:12px 0 0; }
+  footer.site nav{ display:flex; flex-direction:column; gap:10px; font-size:.98rem; }
+  footer.site nav a{ color:var(--pine); text-decoration:underline; text-underline-offset:2px; }
+  footer.site nav a:hover{ color:var(--pine-bright); }
 
   /* ---------- benefits ---------- */
   .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 42px; }
@@ -574,13 +571,8 @@
     /* Toggle: let it wrap and shrink instead of overflowing */
     .map-toggle { flex-wrap: wrap; width: 100%; }
     .map-toggle button { flex: 1 1 auto; justify-content: center; padding: 13px 14px; font-size: 0.86rem; }
-
-    /* Long brand lockup needs room on narrow screens */
-    .brand { font-size: 0.7rem; }
-    .topbar .wrap { height: 56px; }
   }
   @media (max-width: 380px) {
-    .brand { font-size: 0.62rem; }
   }
 
   /* reveal on scroll */
@@ -597,10 +589,16 @@
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="topbar">
+<header class="site">
   <div class="wrap">
-    <span class="brand"><span class="dot"></span> <b>THE&nbsp;30-DAY&nbsp;BUSINESS&nbsp;CLEANUP</b></span>
-    <a class="nav-cta" href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a walkthrough →</a>
+    <a class="brand" href="/" aria-label="Soares Systems home">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+        <rect width="100" height="100" rx="18" fill="#1F5C46"/>
+        <path d="M25 48 L50 27 L75 48 V75 H58 V58 H42 V75 H25 Z" fill="none" stroke="#F6F4EF" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <span><b>Soares Systems</b><span>Fundamentals first</span></span>
+    </a>
+    <a class="header-cta" href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free call</a>
   </div>
 </header>
 
@@ -1107,10 +1105,24 @@
   </div>
 </section>
 
-<footer>
+<footer class="site">
   <div class="wrap">
-    <span>THE 30-DAY BUSINESS CLEANUP</span>
-    <span>Organize · Orchestrate · Automate</span>
+    <div class="cols">
+      <div>
+        <a class="brand" href="/" aria-label="Soares Systems home">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+            <rect width="100" height="100" rx="18" fill="#1F5C46"/>
+            <path d="M25 48 L50 27 L75 48 V75 H58 V58 H42 V75 H25 Z" fill="none" stroke="#F6F4EF" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+          </svg>
+          <b>Soares Systems</b>
+        </a>
+        <p class="fine">Darren Soares. Fundamentals first, tools last.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
+        <a href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free intro call</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
