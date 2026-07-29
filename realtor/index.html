@@ -502,30 +502,22 @@
   .bonus b { display: block; color: var(--ink); font-size: 1.02rem; font-weight: 650; line-height: 1.3; }
   .bonus p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.5; margin-top: 5px; }
 
-  /* ---------- FAQ ---------- */
-  .faq-list { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; max-width: 74ch; }
-  .faq {
-    background: var(--card); border: 1px solid var(--line); border-radius: 11px;
-    overflow: hidden;
-  }
-  .faq summary {
-    cursor: pointer; list-style: none; padding: 20px 22px;
-    font-family: var(--sans); font-weight: 650; font-size: 1.05rem; color: var(--ink);
-    display: flex; align-items: center; justify-content: space-between; gap: 18px;
-    min-height: 44px; transition: color .18s ease, background .18s ease;
-  }
+  /* ---------- FAQ (compact, two columns, equal boxes) ---------- */
+  #faq { padding: clamp(40px, 6vw, 60px) 0; }
+  #faq .sec-head h2 { font-size: clamp(1.4rem, 2.6vw, 1.85rem); }
+  .faq-cols { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, auto); grid-auto-flow: column; gap: 10px; align-items: stretch; }
+  @media (max-width: 640px) { .faq-cols { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; } }
+  .faq { background: var(--card); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .faq summary { cursor: pointer; list-style: none; padding: 10px 14px; font-family: var(--sans); font-weight: 650; font-size: 0.9rem; line-height: 1.3; color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; transition: color .18s ease, background .18s ease; }
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary:hover { color: var(--pine); background: var(--paper-2); }
   .faq summary:focus-visible { outline: 2px solid var(--pine); outline-offset: -2px; }
   .faq .chev { flex: none; color: var(--pine); transition: transform .22s ease; }
+  .faq .chev svg { width: 15px; height: 15px; }
   .faq[open] .chev { transform: rotate(180deg); }
-  .faq .fa { padding: 0 22px 22px; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; }
+  .faq .fa { padding: 0 14px 13px; color: var(--ink-soft); font-size: 0.87rem; line-height: 1.5; }
   .faq .fa b { color: var(--ink); font-weight: 650; }
-  .faq .fa p + p { margin-top: 12px; }
-  /* FAQ as a low-key afterthought at the end of the page */
-  #faq { padding: clamp(40px, 6vw, 60px) 0; }
-  #faq .sec-head h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
-  #faq .faq-list { margin-top: 22px; }
+  .faq .fa p + p { margin-top: 10px; }
 
   /* ---------- proof placeholder (until real testimonials exist) ---------- */
   .proof-slot {
@@ -1062,64 +1054,55 @@
       <span class="eyebrow">Straight answers</span>
       <h2>The questions people actually ask.</h2>
     </div>
-    <div class="faq-list reveal">
-
+    <div class="faq-cols reveal">
       <details class="faq">
-        <summary>I've been burned by a consultant before. Why is this different?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+        <summary>Burned by a consultant before? Why is this different?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>Most consultants hand you a report, or build you something on a platform only they know how to run. When they leave, so does the value. You get <b>plain files you own</b>: no app, no subscription, no vendor. Written in plain English, so any person can read it and know how to do the job, and any AI can run it. If we never speak again, everything keeps working.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>Is this just AI thrown at my business?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>No, and I'd be suspicious of anyone selling it that way. It's <b>60% organizing</b> your business, <b>30% fixing</b> where deals get dropped, <b>10% AI</b> on the follow-up you never get to. AI on a disorganized business just makes a mess faster. The organizing is where almost all the value is.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>How much of my time does this take?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>It depends on the scope. Most of your time lands early, while I'm learning how you actually work. After that it's short check-ins. I'll give you a real number once I've seen the job. The building is my job, not yours.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>What if my team won't use it?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>There's nothing new to log into and nothing new to learn. I'm not adding another tool on top of a CRM you already don't update. The thing they already do just gets somewhere to live and a clear order to it. For most teams it's <b>less</b> work, not more, which is why it sticks.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>What does it cost?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>Most engagements run four figures, flat. Fixed scope, one number, no hourly billing and no monthly fee. I don't quote before I've seen your business, because a solo agent and a fifteen-person team are different jobs. That's what the call is for.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>What happens after the 30 days?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>It's yours. You keep the system whether or not we ever work together again, plus a <b>90-day tune-up</b> where I come back and fix whatever drifted, and a direct line to me for quick questions. Neither costs extra.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>I'm a solo agent. Is this only for teams?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>No. Solo agents are often the clearest fit, because everything genuinely lives in one head, and that head is out showing property all day. The problem isn't headcount. It's more to do than time to do it, and leads slipping as a result.</p>
         </div>
       </details>
-
       <details class="faq">
         <summary>Do you actually know real estate, or just systems?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>I'm a <b>licensed California real estate agent</b>. I've wholesaled, flipped houses, sold EB-5 to buyers in China, trained investors across the country, and years back served as a board director for the YOLO Association of Realtors and MetroList MLS. Since then I've run other people's companies, sometimes as the number two, sometimes with the keys handed to me outright, untangling the mess and fixing why things kept falling over. You're not getting a computer guy who read about your industry. I did your job, then learned to fix the business behind it. You don't pay until you've seen the map.</p>
         </div>
       </details>
-
     </div>
   </div>
 </section>
