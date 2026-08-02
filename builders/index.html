@@ -395,21 +395,6 @@
     .wrow + .wrow { margin-top: 14px; }
   }
 
-  /* ---------- wedge / free MVP ---------- */
-  .wedge { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(30px, 5vw, 60px); align-items: center; }
-  @media (max-width: 860px) { .wedge { grid-template-columns: 1fr; } }
-  .wedge .lead { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.2; }
-  .wedge .lead em { font-style: italic; color: var(--pine); }
-  .wedge p.body { margin-top: 18px; color: var(--ink-soft); font-size: 1.02rem; max-width: 46ch; }
-  .wedge-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-  .wstep { display: flex; gap: 16px; padding: 16px 18px; border: 1px solid var(--line); background: var(--card); align-items: flex-start; }
-  .wstep:first-child { border-radius: 10px 10px 0 0; }
-  .wstep:last-child { border-radius: 0 0 10px 10px; }
-  .wstep + .wstep { border-top: none; }
-  .wstep .k { font-family: var(--mono); color: var(--pine); font-size: 0.8rem; flex: none; width: 22px; }
-  .wstep .t b { display: block; font-weight: 600; margin-bottom: 3px; }
-  .wstep .t span { color: var(--ink-soft); font-size: 0.92rem; }
-
   /* ---------- who it's for ---------- */
   .who-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
   .chip {
@@ -510,10 +495,6 @@
     letter-spacing: 0.14em; color: var(--clay); display: block; margin-bottom: 12px;
   }
 
-  /* free-wedge CTA */
-  .wedge-cta { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 30px; }
-  .wedge-note { font-size: 0.9rem; color: var(--ink-faint); max-width: 30ch; line-height: 1.4; }
-
   footer { border-top: 1px solid var(--line); padding: 30px 0 44px; }
   footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); }
 
@@ -542,7 +523,7 @@
   /* ---------- mobile hardening ---------- */
   /* The chaos view is absolutely positioned for desktop. Once the container narrows
      the notes start colliding, so from tablet down it becomes a naturally wrapping
-     pile of notes instead. 860px matches the breakpoint .wedge already uses. */
+     pile of notes instead. */
   @media (max-width: 860px) {
     .chaos { height: auto; display: flex; flex-wrap: wrap; gap: 9px; }
     .chaos .note { position: static !important; max-width: none; flex: 1 1 auto; }
@@ -793,26 +774,6 @@
       <span class="glabel">The guarantee</span>
       <h2>If the map doesn't show you three things quietly costing you money on every job, <u>you owe nothing.</u></h2>
       <p class="gsmall">The map comes first, in the opening days. Look at it. If it doesn't surface at least three places your jobs are leaking time or money, we stop right there and you pay nothing. You risk nothing to finally see your whole operation laid out.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== FREE WEDGE ===================== -->
-<section class="band inset" id="free">
-  <div class="wrap wedge">
-    <div class="reveal">
-      <span class="eyebrow">Not ready to commit? Start smaller</span>
-      <p class="lead" style="margin-top:16px;">Pick one thing you do on every job. <em>I'll build it free.</em></p>
-      <p class="body">A quick taste of how I work, one small piece, done in a few days. It's separate from the full Cleanup, and I only take a few at a time. If you like it, the whole operation is fifteen of these talking to each other.</p>
-    </div>
-    <ul class="wedge-steps reveal">
-      <li class="wstep"><span class="k">01</span><span class="t"><b>You name one repetitive task</b><span>Weekly client updates, sub confirmations, selection reminders, punch-list chasing. Something weekly and annoying.</span></span></li>
-      <li class="wstep"><span class="k">02</span><span class="t"><b>I build it as a small system</b><span>A tidy folder any AI can run. You point it, it drafts the work, you approve, it's done.</span></span></li>
-      <li class="wstep"><span class="k">03</span><span class="t"><b>You keep it, forever</b><span>Whether or not we work together again. It's yours to run and to change.</span></span></li>
-    </ul>
-    <div class="wedge-cta reveal">
-      <a class="btn btn-ghost" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Let's find your one thing <span class="arrow">→</span></a>
-      <span class="wedge-note">A quick call, twenty minutes. We work out which task is worth building, and I go build it. No payment, no commitment.</span>
     </div>
   </div>
 </section>
