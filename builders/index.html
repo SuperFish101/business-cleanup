@@ -540,43 +540,61 @@
   .askmeta span { display: flex; align-items: flex-start; gap: 10px; font-size: 0.93rem; line-height: 1.45; color: var(--ink-soft); }
   .askmeta .tick { color: var(--pine); font-weight: 700; flex: none; }
 
-  /* ---------- floating intake pill ---------- */
-  /* z-index keeps it under the Cal popup; the script at the bottom keeps it off the hero, off the
-     booking buttons, and off everything from the intake band down. */
+  /* ---------- floating intake pill + the panel it opens ---------- */
+  /* Both sit under the Cal popup on z-index, so a booking overlay always wins. The pill appears
+     on a timer and then stays put. */
   .askpill {
     position: fixed; z-index: 30;
     right: clamp(14px, 3vw, 26px);
     bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px));
-    display: flex; align-items: stretch; max-width: calc(100vw - 28px);
-    background: var(--pine); border-radius: 999px;
+    display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 28px);
+    padding: 13px 20px; background: var(--pine); color: #fff; border-radius: 999px;
     box-shadow: 0 14px 34px -12px rgb(var(--shadow) / 0.5);
-    font-family: var(--sans);
+    font-family: var(--sans); font-weight: 650; font-size: 0.95rem; line-height: 1.1;
+    text-decoration: none; cursor: pointer;
     opacity: 0; transform: translateY(14px); pointer-events: none;
-    transition: opacity .28s ease, transform .28s ease;
+    transition: opacity .3s ease, transform .3s ease, background .15s ease;
   }
   .askpill[hidden] { display: none; }
   .askpill.on { opacity: 1; transform: none; pointer-events: auto; }
-  .askpill a {
-    display: inline-flex; align-items: center; gap: 10px; min-width: 0;
-    padding: 13px 14px 13px 18px; color: #fff; text-decoration: none;
-    font-weight: 650; font-size: 0.95rem; line-height: 1.1; border-radius: 999px 0 0 999px;
-  }
-  .askpill a:hover { background: var(--pine-bright); color: #fff; }
+  .askpill:hover { background: var(--pine-bright); color: #fff; }
+  .askpill:focus-visible { outline: 3px solid var(--clay-soft); outline-offset: 3px; }
   .askpill .pico { flex: none; display: flex; color: var(--clay-soft); }
   .askpill .ptxt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .askpill .pclose {
-    flex: none; cursor: pointer; background: transparent; border: 0;
-    border-left: 1px solid rgba(255,255,255,0.22); border-radius: 0 999px 999px 0;
-    color: rgba(255,255,255,0.65); font-family: var(--sans); font-size: 0.8rem;
-    padding: 0 14px; line-height: 1;
+  @media (max-width: 420px) { .askpill { padding: 12px 16px; font-size: 0.88rem; gap: 8px; } }
+
+  /* The intake itself, opened in place. It's the live /intake/ page in a same-origin frame, so
+     there is one interview to maintain, not a copy per page. */
+  .askpanel {
+    position: fixed; z-index: 31;
+    right: clamp(14px, 3vw, 26px);
+    bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px));
+    width: min(420px, calc(100vw - 28px));
+    height: min(660px, calc(100vh - 108px));
+    display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    box-shadow: 0 30px 70px -18px rgb(var(--shadow) / 0.55); overflow: hidden;
+    opacity: 0; transform: translateY(16px) scale(0.98); transform-origin: 100% 100%;
+    pointer-events: none; transition: opacity .26s ease, transform .26s ease;
   }
-  .askpill .pclose:hover { color: #fff; background: var(--pine-bright); }
-  .askpill a:focus-visible, .askpill .pclose:focus-visible { outline: 3px solid var(--clay-soft); outline-offset: 2px; }
-  @media (max-width: 420px) {
-    .askpill a { padding: 12px 10px 12px 15px; font-size: 0.88rem; gap: 8px; }
-    .askpill .pclose { padding: 0 12px; }
+  .askpanel[hidden] { display: none; }
+  .askpanel.on { opacity: 1; transform: none; pointer-events: auto; }
+  .askpanel iframe { flex: 1 1 auto; width: 100%; border: 0; display: block; background: var(--paper); }
+  .askpanel .pclose {
+    position: absolute; top: 13px; right: 13px; z-index: 2;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--paper-2); color: var(--ink-soft);
+    font-family: var(--sans); font-size: 0.85rem; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s ease, color .15s ease;
   }
-  @media (prefers-reduced-motion: reduce) { .askpill { transition: none; transform: none; } }
+  .askpanel .pclose:hover { background: var(--pine); border-color: var(--pine); color: #fff; }
+  .askpanel .pclose:focus-visible { outline: 3px solid var(--clay-soft); outline-offset: 2px; }
+  @media (max-width: 560px) {
+    .askpanel { inset: 0; width: 100%; max-width: none; height: 100%; height: 100dvh; border: 0; border-radius: 0; transform: translateY(20px); }
+    html.askopen, html.askopen body { overflow: hidden; }
+  }
+  @media (prefers-reduced-motion: reduce) { .askpill, .askpanel { transition: none; transform: none; } }
 
   /* ---------- mobile hardening ---------- */
   /* The chaos view is absolutely positioned for desktop. Once the container narrows
@@ -1200,13 +1218,17 @@
   </div>
 </footer>
 
-<!-- Floating intake invite. Hidden until the script decides it's welcome (see the bottom of the page). -->
-<div class="askpill" id="askpill" hidden>
-  <a href="/intake/">
-    <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.6 9.6 0 0 1-2.4-.3L4 21l1.3-3.9A8.1 8.1 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
-    <span class="ptxt">What's eating your time?</span>
-  </a>
-  <button class="pclose" type="button" aria-label="Hide this">✕</button>
+<!-- The intake widget: a pill that opens the interview in place. Both stay hidden until the script
+     at the bottom of the page brings the pill in on a timer. The href is a real link, so cmd-click
+     and a JavaScript-less browser still get the full /intake/ page. -->
+<a class="askpill" id="askpill" href="/intake/" hidden>
+  <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.6 9.6 0 0 1-2.4-.3L4 21l1.3-3.9A8.1 8.1 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
+  <span class="ptxt">What's eating your time?</span>
+</a>
+
+<div class="askpanel" id="askpanel" role="dialog" aria-label="Tell Darren what's eating your time" hidden>
+  <button class="pclose" type="button" aria-label="Close">✕</button>
+  <iframe data-src="/intake/" title="Tell Darren what's eating your time" allow="microphone"></iframe>
 </div>
 
 <script>
@@ -1254,61 +1276,68 @@
     show('before');
   })();
 
-  // Floating intake pill. It only shows in the middle of the page: after the hero has scrolled
-  // off, and up to the point the intake band comes into view. It also steps aside for any booking
-  // button near the bottom of the screen and for the Cal popup, so it never covers an ask.
+  // The intake widget. The pill arrives on a timer, not at a place on the page, and once it is up
+  // it stays up wherever the visitor scrolls. Clicking it (or the button in the #ask band) opens
+  // the interview right here instead of sending anyone to another page.
   (function () {
     var pill = document.getElementById('askpill');
-    if (!pill) return;
-    try { if (window.sessionStorage.getItem('ss-ask-pill') === 'off') return; } catch (err) {}
+    var panel = document.getElementById('askpanel');
+    if (!pill || !panel) return;
+
+    // The one knob: how long a visitor gets to read before the pill shows up.
+    var SHOW_AFTER_MS = 15000;
+
+    var frame = panel.querySelector('iframe');
+    var closeBtn = panel.querySelector('.pclose');
+    var loaded = false, panelOpen = false;
+
+    function showPill() { if (!panelOpen) pill.classList.add('on'); }
+
+    // Already met the pill earlier in this visit? Don't make them wait through the delay again.
+    var seen = false;
+    try { seen = window.sessionStorage.getItem('ss-ask-seen') === '1'; } catch (err) {}
     pill.hidden = false;
+    window.setTimeout(function () {
+      showPill();
+      try { window.sessionStorage.setItem('ss-ask-seen', '1'); } catch (err) {}
+    }, seen ? 600 : SHOW_AFTER_MS);
 
-    var hero = document.getElementById('main');
-    var ask = document.getElementById('ask');
-    var bookBtns = Array.prototype.slice.call(document.querySelectorAll('a[data-cal-link]'));
-    var dismissed = false, calOpen = false;
+    function openPanel() {
+      if (!loaded) { frame.src = frame.getAttribute('data-src'); loaded = true; }
+      panelOpen = true;
+      panel.hidden = false;
+      pill.classList.remove('on');
+      document.documentElement.classList.add('askopen');
+      // one frame on the hidden state first, so the open actually animates
+      window.requestAnimationFrame(function () {
+        panel.classList.add('on');
+        closeBtn.focus();
+      });
+    }
+    function closePanel() {
+      panelOpen = false;
+      panel.classList.remove('on');
+      document.documentElement.classList.remove('askopen');
+      showPill();
+      pill.focus();
+    }
 
-    function nearBooking() {
-      var h = window.innerHeight;
-      for (var i = 0; i < bookBtns.length; i++) {
-        var r = bookBtns[i].getBoundingClientRect();
-        if (r.height && r.bottom > h - 160 && r.top < h + 20) return true;
-      }
-      return false;
+    // Leave modified clicks alone so cmd-click and middle-click still open the full page.
+    function plainClick(e) {
+      return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
     }
-    function measure() {
-      var pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
-      var atAsk = ask ? ask.getBoundingClientRect().top < window.innerHeight - 40 : false;
-      pill.classList.toggle('on', pastHero && !atAsk && !calOpen && !dismissed && !nearBooking());
-    }
-    var queued = false;
-    function onScroll() {
-      if (queued) return;
-      queued = true;
-      window.requestAnimationFrame(function () { queued = false; measure(); });
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-
-    pill.querySelector('.pclose').addEventListener('click', function () {
-      dismissed = true;
-      measure();
-      try { window.sessionStorage.setItem('ss-ask-pill', 'off'); } catch (err) {}
-      window.setTimeout(function () { pill.hidden = true; }, 320);
+    document.querySelectorAll('a[href="/intake/"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (!plainClick(e)) return;
+        e.preventDefault();
+        openPanel();
+      });
     });
 
-    // Never sit on top of the Cal booking popup.
-    document.addEventListener('click', function (e) {
-      if (e.target && e.target.closest && e.target.closest('[data-cal-link]')) { calOpen = true; measure(); }
-    }, true);
-    try {
-      new MutationObserver(function () {
-        calOpen = !!document.querySelector('cal-modal-box');
-        measure();
-      }).observe(document.body, { childList: true });
-    } catch (err) {}
-
-    measure();
+    closeBtn.addEventListener('click', closePanel);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panelOpen) closePanel();
+    });
   })();
 </script>
 
