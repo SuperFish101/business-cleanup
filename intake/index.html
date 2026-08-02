@@ -6,6 +6,8 @@
   <title>What's eating your time? | Soares Systems</title>
   <meta name="description" content="Tell Darren what eats your time. He reads every word, then shows you what could come off your plate.">
   <meta name="robots" content="noindex">
+  <!-- Runs before paint so the brand bar never flashes inside the site's chat panel. -->
+  <script>if(location.search.indexOf('embed=1')>-1)document.documentElement.className='embed';</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231C5A43'/%3E%3Crect x='27' y='27' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3Crect x='52' y='27' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3Crect x='27' y='52' width='21' height='21' rx='5' fill='%23D8A24A'/%3E%3Crect x='52' y='52' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3C/svg%3E">
   <style>
     /* Brand: Deep Green & Amber (../brand/brand-guide.md) */
@@ -28,7 +30,9 @@
     }
     a{color:var(--green)}
 
-    /* Header */
+    /* Header. Hidden when this page is embedded in the site's chat panel (?embed=1): the host
+       page already says Soares Systems, so a second brand bar is just noise. The panel's close
+       button floats in the space the padding below leaves for it. */
     header{
       display:flex; align-items:center; gap:10px;
       padding:14px 18px; border-bottom:1px solid var(--line); background:var(--card);
@@ -36,6 +40,8 @@
     header svg{width:30px;height:30px;flex:none;border-radius:8px}
     header .name{font-family:var(--serif); font-size:18px; font-weight:600; color:var(--ink)}
     header .tag{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint)}
+    .embed header{display:none}
+    .embed main{padding-top:44px}
 
     /* Chat area */
     main{flex:1 1 auto; overflow-y:auto; padding:18px; -webkit-overflow-scrolling:touch}
@@ -53,37 +59,53 @@
     .typing span:nth-child(3),.dots span:nth-child(3){animation-delay:.4s}
     @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
 
-    /* Intro / begin */
-    .intro{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px}
-    .intro h1{font-family:var(--serif); font-size:24px; margin:.1em 0 .4em}
-    .intro p{color:var(--ink-soft); margin:.4em 0}
-
-    /* Composer */
-    footer{border-top:1px solid var(--line); background:var(--card); padding:12px 14px}
-    .composer{max-width:640px; margin:0 auto; display:flex; gap:10px; align-items:flex-end}
-    .rec{
-      flex:none; width:56px; height:56px; border-radius:50%; border:none; cursor:pointer;
-      background:var(--green); color:#fff; font-size:22px; display:grid; place-items:center;
-      transition:transform .1s ease, background .2s ease;
-    }
-    .rec:hover{background:var(--green-bright)}
-    .rec:active{transform:scale(.96)}
-    .rec.on{background:var(--amber); animation:pulse 1.2s infinite}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,137,42,.5)}100%{box-shadow:0 0 0 14px rgba(198,137,42,0)}}
-    .textwrap{flex:1 1 auto; display:flex; gap:8px; align-items:flex-end}
+    /* Composer. Sizes follow skills/ui-ux-pro-max: 44px touch targets, 8px gaps, SVG icons
+       (never emoji), aria-labels on the icon-only buttons, a persistent helper line. */
+    footer{border-top:1px solid var(--line); background:var(--card);
+      padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+    .composer{max-width:640px; margin:0 auto; display:flex; gap:8px; align-items:flex-end}
     textarea{
-      flex:1 1 auto; resize:none; min-height:44px; max-height:140px; padding:11px 12px;
-      border:1px solid var(--line); border-radius:12px; font:inherit; color:var(--ink); background:var(--ground);
+      flex:1 1 auto; resize:none; min-height:44px; max-height:132px; padding:11px 12px;
+      border:1px solid var(--line); border-radius:12px; font-family:inherit; font-size:16px;
+      line-height:1.35; color:var(--ink); background:var(--ground);
     }
     textarea:focus{outline:2px solid var(--green); outline-offset:1px}
-    .send{
-      flex:none; height:44px; padding:0 16px; border:none; border-radius:12px; cursor:pointer;
-      background:var(--amber); color:#1E2620; font-weight:700; font:inherit;
+    .iconbtn{
+      flex:none; width:44px; height:44px; border-radius:50%; cursor:pointer;
+      border:1px solid var(--line); background:var(--ground2); color:var(--green);
+      display:grid; place-items:center; padding:0;
+      transition:background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
     }
+    .iconbtn svg{width:22px; height:22px; display:block}
+    .iconbtn:active{transform:scale(.96)}
+    .iconbtn:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+    .rec:hover{background:var(--line-soft)}
+    .rec.on{background:var(--amber); border-color:var(--amber); color:#fff; animation:pulse 1.4s infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,137,42,.45)}100%{box-shadow:0 0 0 12px rgba(198,137,42,0)}}
+    .send{background:var(--green); border-color:var(--green); color:#fff}
+    .send:hover:not(:disabled){background:var(--green-bright); border-color:var(--green-bright)}
     .send:disabled{opacity:.4; cursor:default}
-    .hint{max-width:640px;margin:8px auto 0;font-size:12px;color:var(--ink-faint);text-align:center}
-    .wrapup{display:block;margin:6px auto 0;background:none;border:none;cursor:pointer;
-      color:var(--green);font-size:13px;text-decoration:underline;font-family:inherit}
+
+    /* Secondary row: reading replies aloud is OFF until someone asks for it. */
+    .crow{max-width:640px; margin:8px auto 0; display:flex; align-items:center;
+      justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .voice{
+      display:inline-flex; align-items:center; gap:8px; min-height:38px; padding:0 13px;
+      border-radius:999px; border:1px solid var(--line); background:var(--ground);
+      color:var(--ink-soft); font-family:inherit; font-size:13px; cursor:pointer;
+      transition:background .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .voice svg{width:17px; height:17px; flex:none}
+    .voice:hover{border-color:var(--green); color:var(--green)}
+    .voice[aria-pressed="true"]{background:var(--amber); border-color:var(--amber); color:#1E2620; font-weight:600}
+    .voice:focus-visible{outline:2px solid var(--green); outline-offset:2px}
+    .voice .von{display:none}
+    .voice[aria-pressed="true"] .voff{display:none}
+    .voice[aria-pressed="true"] .von{display:block}
+    .wrapup{background:none; border:none; cursor:pointer; color:var(--green); font-size:13px;
+      text-decoration:underline; font-family:inherit; min-height:38px; padding:0 4px}
+    .hint{max-width:640px; margin:6px auto 0; font-size:12px; color:var(--ink-faint); text-align:center}
+    @media (prefers-reduced-motion:reduce){ .rec.on{animation:none} .iconbtn{transition:none} }
 
     /* End / booking */
     .book{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; text-align:center}
@@ -115,30 +137,35 @@
 
   <main>
     <div class="wrap" id="wrap">
-      <!-- Intro -->
-      <section class="intro" id="intro">
-        <h1>What's eating your time?</h1>
-        <p>You know the stuff. The thing you redo every week. The follow-ups that slip. The work that
-          should not need you anymore. Tell Darren about it, talking or typing. He reads every word,
-          then shows you what could come off your plate.</p>
-        <p style="color:var(--ink-faint);font-size:14px">About ten minutes if you let it ask its questions.
-          Faster if you pour it all out in one go. Recorded so Darren can actually help. Wrap up any time.</p>
-        <button class="send" id="begin" style="height:48px;margin-top:8px">Start talking</button>
-      </section>
+      <!-- No start gate. The first question is on screen the moment the page opens, so people can
+           read it before deciding to talk. The pitch that used to live here is now the #ask band on
+           the sales pages (website/CURRENT-SITE.md). -->
+      <div class="note">About ten minutes, or faster if you pour it all out in one go. Talk or type, whichever is easier. Wrap it up any time.</div>
       <!-- Messages get appended here -->
     </div>
   </main>
 
-  <footer class="hidden" id="composer">
+  <footer id="composer">
     <div class="composer">
-      <div class="textwrap">
-        <textarea id="text" rows="1" placeholder="Tap the mic and talk, or type here..."></textarea>
-        <button class="send" id="send" disabled>Send</button>
-      </div>
-      <button class="rec" id="rec" title="Tap to record" aria-label="Tap to record">&#127908;</button>
+      <!-- Short on purpose: the composer is narrow in the panel, and the hint line below carries
+           the full instruction. A longer placeholder wraps and clips at 390px. -->
+      <textarea id="text" rows="1" placeholder="Type your answer"></textarea>
+      <button class="iconbtn rec" id="rec" type="button" aria-label="Record your answer">
+        <svg id="recicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+      </button>
+      <button class="iconbtn send" id="send" type="button" aria-label="Send" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
     </div>
-    <div class="hint" id="hint">Tap the mic, talk as long as you want, then tap it again to stop.</div>
-    <button class="wrapup" id="wrapup">Done talking? Wrap it up</button>
+    <div class="crow">
+      <button class="voice" id="voice" type="button" aria-pressed="false">
+        <svg class="voff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M22 9l-5 6M17 9l5 6"/></svg>
+        <svg class="von" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M15.6 8.6a4.8 4.8 0 0 1 0 6.8"/><path d="M18.7 5.5a9 9 0 0 1 0 13"/></svg>
+        <span id="voicelabel">Read replies out loud</span>
+      </button>
+      <button class="wrapup" id="wrapup" type="button">Done? Wrap it up</button>
+    </div>
+    <div class="hint" id="hint" aria-live="polite">Type your answer, or tap the mic and just talk.</div>
   </footer>
 
   <audio id="player"></audio>
@@ -162,17 +189,28 @@
 
     var els = {
       wrap: document.getElementById('wrap'),
-      intro: document.getElementById('intro'),
-      begin: document.getElementById('begin'),
       composer: document.getElementById('composer'),
       rec: document.getElementById('rec'),
+      recicon: document.getElementById('recicon'),
       text: document.getElementById('text'),
       send: document.getElementById('send'),
       hint: document.getElementById('hint'),
       wrapup: document.getElementById('wrapup'),
+      voice: document.getElementById('voice'),
+      voicelabel: document.getElementById('voicelabel'),
       player: document.getElementById('player'),
       main: document.querySelector('main')
     };
+
+    var MIC_ICON = '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>';
+    var STOP_ICON = '<rect x="6.5" y="6.5" width="11" height="11" rx="2.5" fill="currentColor"/>';
+
+    // ---- reading replies out loud is OFF by default ----
+    // Most people open this at work and do not want a voice starting up. It also costs money per
+    // reply, so we only generate it when someone asks for it. The n8n side reads payload.speak.
+    var VKEY = 'ss_intake_voice';
+    var voiceOn = false;
+    try{ voiceOn = localStorage.getItem(VKEY) === '1'; }catch(e){}
 
     // ---- session id (stable across reloads so a session can resume) ----
     var SKEY = 'ss_intake_session';
@@ -208,13 +246,11 @@
     }
     function restoreLog(){
       var log = getLog(); if(!log.length) return false;
-      els.intro.classList.add('hidden');
-      els.composer.classList.remove('hidden');
       log.forEach(function(m){ bubble(m.who, m.text); });
       return true;
     }
     function playAudio(b64){
-      if(!b64) return;
+      if(!voiceOn || !b64) return;
       try{ els.player.src = 'data:audio/mpeg;base64,' + b64; els.player.play().catch(function(){}); }
       catch(e){}
     }
@@ -243,6 +279,7 @@
       if(finished) return;
       busy = true; els.send.disabled = true; typing(true);
       payload.sessionId = sessionId; payload.secret = SHARED_SECRET; payload.history = history();
+      payload.speak = voiceOn; // n8n: skip the text-to-speech node when this is false
       fetch(N8N_WEBHOOK_URL, {
         method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       })
@@ -264,16 +301,29 @@
       .catch(function(err){ console.error(err); failSoft(); });
     }
 
-    // ---------- start ----------
-    // The opening is baked into the page (text + pre-made audio), so starting is instant
-    // and costs no server turn. The first real webhook call happens on their first answer.
-    els.begin.addEventListener('click', function(){
-      els.intro.classList.add('hidden');
-      els.composer.classList.remove('hidden');
-      bubble('them', OPENING_TEXT); pushLog('them', OPENING_TEXT);
-      try{ els.player.src = window.SS_OPENING_AUDIO || ''; els.player.play().catch(function(){}); }catch(e){}
-      els.send.disabled = els.text.value.trim() === '';
+    // ---------- reading replies out loud ----------
+    function syncVoiceBtn(){
+      els.voice.setAttribute('aria-pressed', voiceOn ? 'true' : 'false');
+      els.voicelabel.textContent = voiceOn ? 'Reading replies out loud' : 'Read replies out loud';
+    }
+    els.voice.addEventListener('click', function(){
+      voiceOn = !voiceOn;
+      try{ localStorage.setItem(VKEY, voiceOn ? '1' : '0'); }catch(e){}
+      syncVoiceBtn();
+      if(voiceOn){ els.hint.textContent = 'Replies will be read out loud from here on.'; }
+      else { stopVoice(); els.hint.textContent = 'Replies stay silent. Turn it back on any time.'; }
     });
+    syncVoiceBtn();
+
+    // ---------- start ----------
+    // No gate. The opening question is on screen immediately (it is baked into the page, so it
+    // costs no server turn) and the composer is ready. The first webhook call is their first answer.
+    if(!restoreLog()){
+      bubble('them', OPENING_TEXT); pushLog('them', OPENING_TEXT);
+      // Only speak the opening if they already asked for voice on an earlier visit.
+      if(voiceOn){ try{ els.player.src = window.SS_OPENING_AUDIO || ''; els.player.play().catch(function(){}); }catch(e){} }
+    }
+    els.send.disabled = true;
 
     // ---------- text input ----------
     function autogrow(){ els.text.style.height='auto'; els.text.style.height=Math.min(els.text.scrollHeight,140)+'px'; }
@@ -299,7 +349,13 @@
     });
 
     // ---------- voice recording (tap to start, tap to stop) ----------
-    var mediaRecorder = null, chunks = [], recording = false, stream = null;
+    var mediaRecorder = null, chunks = [], recording = false, stream = null, cancelling = false;
+
+    function setRecUI(on){
+      els.rec.classList.toggle('on', on);
+      els.recicon.innerHTML = on ? STOP_ICON : MIC_ICON;
+      els.rec.setAttribute('aria-label', on ? 'Stop recording' : 'Record your answer');
+    }
 
     function b64FromBlob(blob){
       return new Promise(function(resolve, reject){
@@ -327,6 +383,7 @@
           var mimeType = mediaRecorder.mimeType || 'audio/webm';
           var blob = new Blob(chunks, {type: mimeType});
           stream.getTracks().forEach(function(t){ t.stop(); });
+          if(cancelling){ cancelling = false; return; } // panel was closed mid-recording
           if(blob.size < 800){ els.hint.textContent='Did not catch that, try again.'; return; }
           pendingVoiceBubble = bubble('you', '');   // dots until the transcription replaces them
           pendingVoiceBubble.innerHTML = '<span class="dots"><span>.</span><span>.</span><span>.</span></span>';
@@ -335,14 +392,20 @@
           });
         };
         mediaRecorder.start();
-        recording = true; els.rec.classList.add('on'); els.rec.innerHTML='&#9209;';
-        els.hint.textContent='Recording... tap the square to stop.';
+        recording = true; setRecUI(true);
+        els.hint.textContent='Recording. Tap the square when you are done.';
       }).catch(function(){ noMic(); });
     }
     function stopRec(){
       if(!recording) return;
-      recording = false; els.rec.classList.remove('on'); els.rec.innerHTML='&#127908;';
+      recording = false; setRecUI(false);
       els.hint.textContent='Got it, one sec...';
+      try{ mediaRecorder.stop(); }catch(e){}
+    }
+    function cancelRec(){
+      if(!recording) return;
+      cancelling = true; recording = false; setRecUI(false);
+      els.hint.textContent='Type your answer, or tap the mic and just talk.';
       try{ mediaRecorder.stop(); }catch(e){}
     }
     function noMic(){
@@ -351,8 +414,10 @@
     }
     els.rec.addEventListener('click', function(){ recording ? stopRec() : startRec(); });
 
-    // ---------- resume a half-finished session on reload ----------
-    restoreLog();
+    // ---------- what the host page can ask of us ----------
+    // The sales pages open this in a panel. Closing that panel has to shut the voice up and let
+    // go of the microphone; without this the interviewer keeps talking behind a closed panel.
+    window.SS_INTAKE = { stop: function(){ stopVoice(); cancelRec(); } };
   })();
   </script>
 </body>

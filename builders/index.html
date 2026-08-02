@@ -544,7 +544,7 @@
   /* Both sit under the Cal popup on z-index, so a booking overlay always wins. The pill appears
      on a timer and then stays put. */
   .askpill {
-    position: fixed; z-index: 30;
+    position: fixed; z-index: 45;
     right: clamp(14px, 3vw, 26px);
     bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px));
     display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 28px);
@@ -566,13 +566,13 @@
   /* The intake itself, opened in place. It's the live /intake/ page in a same-origin frame, so
      there is one interview to maintain, not a copy per page. */
   .askpanel {
-    position: fixed; z-index: 31;
+    position: fixed; z-index: 46;
     right: clamp(14px, 3vw, 26px);
     bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px));
-    width: min(420px, calc(100vw - 28px));
-    height: min(660px, calc(100vh - 108px));
+    width: min(404px, calc(100vw - 28px));
+    height: min(618px, calc(100vh - 96px));
     display: flex; flex-direction: column;
-    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 18px;
     box-shadow: 0 30px 70px -18px rgb(var(--shadow) / 0.55); overflow: hidden;
     opacity: 0; transform: translateY(16px) scale(0.98); transform-origin: 100% 100%;
     pointer-events: none; transition: opacity .26s ease, transform .26s ease;
@@ -586,6 +586,7 @@
     border: 1px solid var(--line); background: var(--paper-2); color: var(--ink-soft);
     font-family: var(--sans); font-size: 0.85rem; line-height: 1; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgb(var(--shadow) / 0.12);
     transition: background .15s ease, color .15s ease;
   }
   .askpanel .pclose:hover { background: var(--pine); border-color: var(--pine); color: #fff; }
@@ -1228,7 +1229,7 @@
 
 <div class="askpanel" id="askpanel" role="dialog" aria-label="Tell Darren what's eating your time" hidden>
   <button class="pclose" type="button" aria-label="Close">✕</button>
-  <iframe data-src="/intake/" title="Tell Darren what's eating your time" allow="microphone"></iframe>
+  <iframe data-src="/intake/?embed=1" title="Tell Darren what's eating your time" allow="microphone; autoplay"></iframe>
 </div>
 
 <script>
@@ -1316,6 +1317,8 @@
     }
     function closePanel() {
       panelOpen = false;
+      // Same origin, so we can tell the interview to stop talking and let go of the microphone.
+      try { frame.contentWindow.SS_INTAKE.stop(); } catch (err) {}
       panel.classList.remove('on');
       document.documentElement.classList.remove('askopen');
       showPill();
