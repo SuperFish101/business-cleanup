@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a call | Soares Systems</title>
+<meta name="description" content="Pick a time to talk with Darren Soares.">
+
+<!-- Private link. Sent one to one, never linked from the site, kept out of search. -->
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231C5A43'/%3E%3Crect x='27' y='27' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3Crect x='52' y='27' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3Crect x='27' y='52' width='21' height='21' rx='5' fill='%23D8A24A'/%3E%3Crect x='52' y='52' width='21' height='21' rx='5' fill='%23FFFFFF'/%3E%3C/svg%3E">
+
+<style>
+  /* Light-only by design, same as every other page. Canonical palette: ../brand/brand-guide.md */
+  :root, :root[data-theme="dark"], :root[data-theme="light"] {
+    --paper:#F6F5EF; --paper-2:#ECEADF; --card:#FFFFFF;
+    --ink:#1E2620; --ink-soft:#535A52; --ink-faint:#727A70;
+    --pine:#1C5A43; --pine-bright:#25714F;
+    --clay:#C6892A; --clay-soft:#D8A24A;
+    --line:#E4E1D5;
+    color-scheme: light;
+    --serif:"Charter","Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+    --mono:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:18px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:clamp(24px,6vw,64px) clamp(20px,5vw,40px);
+  }
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 20px 46px -30px rgba(20,26,20,.5);
+    max-width:560px; width:100%; padding:clamp(30px,5vw,52px); text-align:center;
+  }
+  .mark{ width:52px; height:52px; display:block; margin:0 auto 22px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--clay); display:block; margin-bottom:14px;
+  }
+  h1{
+    font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,4.6vw,2.3rem);
+    line-height:1.2; letter-spacing:-.01em; margin:0 0 18px;
+  }
+  h1 em{ font-style:italic; color:var(--pine); }
+  p.lede{ color:var(--ink-soft); margin:0 auto 30px; max-width:42ch; }
+  .btn{
+    font-family:var(--sans); font-size:1rem; font-weight:600; text-decoration:none;
+    background:var(--pine); color:#fff; border:1px solid var(--pine); border-radius:12px;
+    padding:15px 30px; min-height:52px; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    box-shadow:0 2px 0 rgba(28,90,67,.28);
+    transition:background .15s ease, transform .05s ease;
+  }
+  .btn:hover{ background:var(--pine-bright); }
+  .btn:active{ transform:translateY(1px); }
+  .btn:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .meta{
+    font-family:var(--mono); font-size:.76rem; color:var(--ink-faint);
+    margin:26px 0 0; letter-spacing:.02em;
+  }
+  .back{
+    font-family:var(--sans); font-size:.85rem; color:var(--ink-faint);
+    text-decoration:none; margin-top:28px; display:inline-block;
+  }
+  .back:hover{ color:var(--pine); text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<main class="card">
+  <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Soares Systems">
+    <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+    <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+    <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+    <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+    <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+  </svg>
+
+  <span class="eyebrow">Soares Systems</span>
+  <h1>Let's find a time to <em>talk.</em></h1>
+  <p class="lede">Pick whatever slot suits you. You choose how long we talk and whether we meet on Google Meet or by phone.</p>
+
+  <a class="btn" href="https://cal.com/darren-soares/discovery"
+     data-cal-link="darren-soares/discovery"
+     data-cal-namespace="discovery"
+     data-cal-config='{"layout":"month_view"}'
+     target="_blank" rel="noopener">Pick a time <span aria-hidden="true">&rarr;</span></a>
+
+  <p class="meta">No pitch deck. No pressure.</p>
+
+  <a class="back" href="https://soaressystems.com/">soaressystems.com</a>
+</main>
+
+<!-- ===================== CAL.COM BOOKING (discovery call) =====================
+     Same popup embed as the public pages, pointed at the discovery event so the booker
+     can choose 30 or 60 minutes inside Cal. Colors are the brand palette; canonical source
+     is Soares_Systems/brand/brand-guide.md in the workspace. Change both together.
+     The href is the no-JS fallback; the guard at the bottom stops the browser from also
+     navigating there, because Cal's own handler does not preventDefault. -->
+<script>
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", "discovery", { origin: "https://app.cal.com" });
+
+Cal.ns["discovery"]("ui", {
+  theme: "light",
+  layout: "month_view",
+  hideEventTypeDetails: false,
+  cssVarsPerTheme: {
+    light: {
+      "cal-brand": "#1C5A43",
+      "cal-brand-emphasis": "#25714F",
+      "cal-brand-text": "#FFFFFF",
+      "cal-bg": "#FFFFFF",
+      "cal-bg-subtle": "#F6F5EF",
+      "cal-bg-muted": "#ECEADF",
+      "cal-bg-emphasis": "#ECEADF",
+      "cal-text": "#1E2620",
+      "cal-text-emphasis": "#1E2620",
+      "cal-text-subtle": "#535A52",
+      "cal-text-muted": "#727A70",
+      "cal-border": "#E4E1D5",
+      "cal-border-subtle": "#EFECE2",
+      "cal-border-muted": "#EFECE2",
+      "cal-border-emphasis": "#1C5A43",
+      "cal-border-booker": "#E4E1D5",
+      "radius": "12px"
+    }
+  }
+});
+
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (t && t.closest && t.closest("[data-cal-link]")) e.preventDefault();
+});
+</script>
+</body>
+</html>
