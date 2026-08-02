@@ -520,6 +520,64 @@
   .gband h2 u { text-decoration-thickness: 2px; text-underline-offset: 4px; }
   .gband .gsmall { margin-top: 14px; font-size: 1.02rem; opacity: 0.9; max-width: 52ch; }
 
+  /* ---------- intake band (the softer parallel path to the same call) ---------- */
+  /* Its own ground, so it resets the plain/inset rhythm instead of flipping every band below it. */
+  .askband { background: color-mix(in srgb, var(--pine) 6%, var(--paper)); }
+  .askcard {
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--clay);
+    border-radius: 16px; box-shadow: 0 20px 46px -32px rgb(var(--shadow) / 0.5);
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(24px, 4vw, 48px);
+    padding: clamp(28px, 4vw, 46px);
+  }
+  @media (max-width: 860px) { .askcard { grid-template-columns: 1fr; gap: 26px; } }
+  .askcard h2 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.08; margin-top: 14px; }
+  .askcard .asklede { color: var(--ink-soft); margin-top: 16px; font-size: 1.06rem; line-height: 1.55; max-width: 48ch; }
+  .askcard .cta-row { margin-top: 26px; }
+  .askmeta {
+    align-self: center; display: flex; flex-direction: column; gap: 12px;
+    background: var(--paper-2); border-radius: 12px; padding: 22px;
+  }
+  .askmeta span { display: flex; align-items: flex-start; gap: 10px; font-size: 0.93rem; line-height: 1.45; color: var(--ink-soft); }
+  .askmeta .tick { color: var(--pine); font-weight: 700; flex: none; }
+
+  /* ---------- floating intake pill ---------- */
+  /* z-index keeps it under the Cal popup; the script at the bottom keeps it off the hero, off the
+     booking buttons, and off everything from the intake band down. */
+  .askpill {
+    position: fixed; z-index: 30;
+    right: clamp(14px, 3vw, 26px);
+    bottom: calc(clamp(14px, 3vw, 26px) + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: stretch; max-width: calc(100vw - 28px);
+    background: var(--pine); border-radius: 999px;
+    box-shadow: 0 14px 34px -12px rgb(var(--shadow) / 0.5);
+    font-family: var(--sans);
+    opacity: 0; transform: translateY(14px); pointer-events: none;
+    transition: opacity .28s ease, transform .28s ease;
+  }
+  .askpill[hidden] { display: none; }
+  .askpill.on { opacity: 1; transform: none; pointer-events: auto; }
+  .askpill a {
+    display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+    padding: 13px 14px 13px 18px; color: #fff; text-decoration: none;
+    font-weight: 650; font-size: 0.95rem; line-height: 1.1; border-radius: 999px 0 0 999px;
+  }
+  .askpill a:hover { background: var(--pine-bright); color: #fff; }
+  .askpill .pico { flex: none; display: flex; color: var(--clay-soft); }
+  .askpill .ptxt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .askpill .pclose {
+    flex: none; cursor: pointer; background: transparent; border: 0;
+    border-left: 1px solid rgba(255,255,255,0.22); border-radius: 0 999px 999px 0;
+    color: rgba(255,255,255,0.65); font-family: var(--sans); font-size: 0.8rem;
+    padding: 0 14px; line-height: 1;
+  }
+  .askpill .pclose:hover { color: #fff; background: var(--pine-bright); }
+  .askpill a:focus-visible, .askpill .pclose:focus-visible { outline: 3px solid var(--clay-soft); outline-offset: 2px; }
+  @media (max-width: 420px) {
+    .askpill a { padding: 12px 10px 12px 15px; font-size: 0.88rem; gap: 8px; }
+    .askpill .pclose { padding: 0 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .askpill { transition: none; transform: none; } }
+
   /* ---------- mobile hardening ---------- */
   /* The chaos view is absolutely positioned for desktop. Once the container narrows
      the notes start colliding, so from tablet down it becomes a naturally wrapping
@@ -1100,6 +1158,27 @@
   </div>
 </section>
 
+<!-- ===================== THE INTAKE (softer path to the same call) ===================== -->
+<section class="band askband" id="ask">
+  <div class="wrap">
+    <div class="askcard reveal">
+      <div>
+        <span class="eyebrow">Before you book anything</span>
+        <h2>What's eating your time?</h2>
+        <p class="asklede">You know the stuff. The sub who showed up before the inspection cleared. The selection nobody confirmed. The client update you meant to send on Tuesday. Tell me about it, talking or typing, and I read every word. Then I come back and show you what could come off your plate.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/intake/">Tell me what's slipping <span class="arrow">→</span></a>
+        </div>
+      </div>
+      <div class="askmeta">
+        <span><span class="tick">✓</span> About ten minutes. Faster if you pour it all out in one go.</span>
+        <span><span class="tick">✓</span> Talk into your phone from the truck, or type it. Whichever is easier.</span>
+        <span><span class="tick">✓</span> Wrap it up any time. It comes straight to me.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== FINAL CTA ===================== -->
 <section class="final" id="book">
   <div class="wrap">
@@ -1120,6 +1199,15 @@
     <span>Organize · Orchestrate · Automate</span>
   </div>
 </footer>
+
+<!-- Floating intake invite. Hidden until the script decides it's welcome (see the bottom of the page). -->
+<div class="askpill" id="askpill" hidden>
+  <a href="/intake/">
+    <span class="pico" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.6 9.6 0 0 1-2.4-.3L4 21l1.3-3.9A8.1 8.1 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg></span>
+    <span class="ptxt">What's eating your time?</span>
+  </a>
+  <button class="pclose" type="button" aria-label="Hide this">✕</button>
+</div>
 
 <script>
   // scroll reveal
@@ -1164,6 +1252,63 @@
       });
     });
     show('before');
+  })();
+
+  // Floating intake pill. It only shows in the middle of the page: after the hero has scrolled
+  // off, and up to the point the intake band comes into view. It also steps aside for any booking
+  // button near the bottom of the screen and for the Cal popup, so it never covers an ask.
+  (function () {
+    var pill = document.getElementById('askpill');
+    if (!pill) return;
+    try { if (window.sessionStorage.getItem('ss-ask-pill') === 'off') return; } catch (err) {}
+    pill.hidden = false;
+
+    var hero = document.getElementById('main');
+    var ask = document.getElementById('ask');
+    var bookBtns = Array.prototype.slice.call(document.querySelectorAll('a[data-cal-link]'));
+    var dismissed = false, calOpen = false;
+
+    function nearBooking() {
+      var h = window.innerHeight;
+      for (var i = 0; i < bookBtns.length; i++) {
+        var r = bookBtns[i].getBoundingClientRect();
+        if (r.height && r.bottom > h - 160 && r.top < h + 20) return true;
+      }
+      return false;
+    }
+    function measure() {
+      var pastHero = hero ? hero.getBoundingClientRect().bottom < 0 : true;
+      var atAsk = ask ? ask.getBoundingClientRect().top < window.innerHeight - 40 : false;
+      pill.classList.toggle('on', pastHero && !atAsk && !calOpen && !dismissed && !nearBooking());
+    }
+    var queued = false;
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      window.requestAnimationFrame(function () { queued = false; measure(); });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    pill.querySelector('.pclose').addEventListener('click', function () {
+      dismissed = true;
+      measure();
+      try { window.sessionStorage.setItem('ss-ask-pill', 'off'); } catch (err) {}
+      window.setTimeout(function () { pill.hidden = true; }, 320);
+    });
+
+    // Never sit on top of the Cal booking popup.
+    document.addEventListener('click', function (e) {
+      if (e.target && e.target.closest && e.target.closest('[data-cal-link]')) { calOpen = true; measure(); }
+    }, true);
+    try {
+      new MutationObserver(function () {
+        calOpen = !!document.querySelector('cal-modal-box');
+        measure();
+      }).observe(document.body, { childList: true });
+    } catch (err) {}
+
+    measure();
   })();
 </script>
 
