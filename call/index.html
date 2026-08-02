@@ -83,11 +83,11 @@
 
   <span class="eyebrow">Soares Systems</span>
   <h1>Let's find a time to <em>talk.</em></h1>
-  <p class="lede">Pick whatever slot suits you. We can meet on Google Meet or by phone, whichever is easier for you.</p>
+  <p class="lede">Pick a time that suits you. You choose how long we need, and whether we meet on Google Meet or by phone.</p>
 
-  <a class="btn" href="https://cal.com/darren-soares/discovery"
-     data-cal-link="darren-soares/discovery"
-     data-cal-namespace="discovery"
+  <a class="btn" href="https://cal.com/darren-soares/working-session"
+     data-cal-link="darren-soares/working-session"
+     data-cal-namespace="call"
      data-cal-config='{"layout":"month_view"}'
      target="_blank" rel="noopener">Pick a time <span aria-hidden="true">&rarr;</span></a>
 
@@ -105,9 +105,9 @@
 <script>
 (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
 
-Cal("init", "discovery", { origin: "https://app.cal.com" });
+Cal("init", "call", { origin: "https://app.cal.com" });
 
-Cal.ns["discovery"]("ui", {
+Cal.ns["call"]("ui", {
   theme: "light",
   layout: "month_view",
   hideEventTypeDetails: false,
