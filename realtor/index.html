@@ -603,7 +603,7 @@
       </svg>
       <span><b>Soares Systems</b><span>Fundamentals first</span></span>
     </a>
-    <a class="header-cta" href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free call</a>
+    <a class="header-cta" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free call</a>
   </div>
 </header>
 
@@ -615,7 +615,7 @@
       <h1>The business shouldn't stall every time you get <em>busy</em>.</h1>
       <p class="lede">Ten years in real estate, and I know exactly what gets dropped. The quality buyer you'd love to help but can't get to. The person you meant to call back, who is gone by the time you do. I build you one system that keeps all of it moving whether you have time this week or not.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free intro call <span class="arrow">→</span></a>
+        <a class="btn btn-primary" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call <span class="arrow">→</span></a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
     </div>
@@ -1044,7 +1044,7 @@
     <h2 style="margin-top:18px;">Twenty minutes. I'll show you your business <em>on one page.</em></h2>
     <p>No pitch deck, no pressure. We walk through how you work today and where you're losing leads and time. You'll leave seeing what it looks like to stop being the one thing your business waits on, whether or not we ever work together.</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free intro call <span class="arrow">→</span></a>
+      <a class="btn btn-primary" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call <span class="arrow">→</span></a>
     </div>
     <p class="fineprint">You don't pay until you've seen the map · plain-English systems you own · no lock-in</p>
   </div>
@@ -1128,7 +1128,7 @@
       </div>
       <nav aria-label="Footer">
         <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
-        <a href="https://calendar.app.google/NzJhnGVMQjoKUvrDA" target="_blank" rel="noopener">Book a free intro call</a>
+        <a href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call</a>
       </nav>
     </div>
   </div>
@@ -1183,6 +1183,50 @@
     });
     show('before');
   })();
+</script>
+
+<!-- ===================== CAL.COM BOOKING (15-min intro) =====================
+     Opens the booking popup over this page. Buttons opt in with data-cal-link +
+     data-cal-namespace="intro". Colors are the brand palette; canonical source is
+     Soares_Systems/brand/brand-guide.md in the workspace. Change both together.
+     Each button keeps a real href as the no-JS fallback; the guard at the bottom stops the
+     browser from also navigating there, because Cal's own handler does not preventDefault. -->
+<script>
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", "intro", { origin: "https://app.cal.com" });
+
+Cal.ns["intro"]("ui", {
+  theme: "light",
+  layout: "month_view",
+  hideEventTypeDetails: false,
+  cssVarsPerTheme: {
+    light: {
+      "cal-brand": "#1C5A43",
+      "cal-brand-emphasis": "#25714F",
+      "cal-brand-text": "#FFFFFF",
+      "cal-bg": "#FFFFFF",
+      "cal-bg-subtle": "#F6F5EF",
+      "cal-bg-muted": "#ECEADF",
+      "cal-bg-emphasis": "#ECEADF",
+      "cal-text": "#1E2620",
+      "cal-text-emphasis": "#1E2620",
+      "cal-text-subtle": "#535A52",
+      "cal-text-muted": "#727A70",
+      "cal-border": "#E4E1D5",
+      "cal-border-subtle": "#EFECE2",
+      "cal-border-muted": "#EFECE2",
+      "cal-border-emphasis": "#1C5A43",
+      "cal-border-booker": "#E4E1D5",
+      "radius": "12px"
+    }
+  }
+});
+
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (t && t.closest && t.closest("[data-cal-link]")) e.preventDefault();
+});
 </script>
 </body>
 </html>
