@@ -1386,6 +1386,13 @@ document.addEventListener("click", function (e) {
   var t = e.target;
   if (t && t.closest && t.closest("[data-cal-link]")) e.preventDefault();
 });
+
+/* Deep link. Adding ?book=1 to this page's URL opens the booking popup on load, no
+   click needed. Sent one to one when someone just wants a time. Same event as every
+   button on the page, so nothing extra to maintain. */
+if (location.search.indexOf("book=1") > -1) {
+  Cal.ns["intro"]("modal", { calLink: "darren-soares/15min" });
+}
 </script>
 </body>
 </html>
