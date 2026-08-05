@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>60% organizing, 30% fixing handoffs, 10% AI | Soares Systems</title>
+<meta name="description" content="When people find out I use AI in my work, they assume that is the work.">
+<link rel="canonical" href="https://soaressystems.com/articles/02-sixty-thirty-ten/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="60% organizing, 30% fixing handoffs, 10% AI">
+<meta property="og:description" content="When people find out I use AI in my work, they assume that is the work.">
+<meta property="og:url" content="https://soaressystems.com/articles/02-sixty-thirty-ten/">
+<meta property="og:image" content="https://soaressystems.com/articles/images/02-sixty-thirty-ten-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="60% organizing, 30% fixing handoffs, 10% AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="60% organizing, 30% fixing handoffs, 10% AI">
+<meta name="twitter:description" content="When people find out I use AI in my work, they assume that is the work.">
+<meta name="twitter:image" content="https://soaressystems.com/articles/images/02-sixty-thirty-ten-og.jpg">
+<style>
+  :root{
+    color-scheme:light;
+    --paper:#F6F5EF; --paper-2:#ECEADF; --pine:#1C5A43; --pine-bright:#226E52;
+    --clay:#C6892A; --clay-soft:#E4C083; --ink:#1E2620; --ink-soft:#535A52;
+    --line:#DCD9CC; --shadow:26 38 32;
+    --serif:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  :root[data-theme="dark"]{ color-scheme:light; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+        font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .wrap{ width:100%; max-width:1120px; margin:0 auto; padding:0 24px; }
+  a{ color:var(--pine); }
+
+  header.site{ border-bottom:1px solid var(--line); background:var(--paper); }
+  header.site .wrap{ display:flex; align-items:center; justify-content:space-between; gap:18px;
+                     min-height:74px; }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .brand .mark{ width:34px; height:34px; flex:none; border-radius:8px; }
+  .brand b{ font-family:var(--serif); font-size:1.12rem; letter-spacing:-.01em; display:block; }
+  .brand span span{ display:block; font-size:.76rem; color:var(--ink-soft); letter-spacing:.04em; }
+  .header-cta{ background:var(--pine); color:#fff; text-decoration:none; font-weight:650;
+               font-size:.92rem; padding:11px 18px; border-radius:999px; white-space:nowrap; }
+  .header-cta:hover{ background:var(--pine-bright); }
+
+  .band{ padding:64px 0; }
+  .band.inset{ background:var(--paper-2); }
+  .eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+            color:var(--clay); display:block; margin-bottom:10px; }
+  h1,h2,h3{ font-family:var(--serif); letter-spacing:-.015em; line-height:1.15; }
+
+  footer.site{ border-top:1px solid var(--line); padding:40px 0; background:var(--paper); }
+  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px; justify-content:space-between; }
+  footer.site nav{ display:flex; flex-direction:column; gap:8px; }
+  footer.site a{ color:var(--ink); text-decoration:none; font-size:.95rem; }
+  footer.site a:hover{ color:var(--pine); }
+  .fine{ color:var(--ink-soft); font-size:.88rem; margin:10px 0 0; }
+
+  .crumb{ padding:22px 0 0; font-size:.9rem; }
+  .crumb a{ color:var(--ink-soft); text-decoration:none; }
+  .crumb a:hover{ color:var(--pine); }
+  article.piece{ padding:26px 0 70px; }
+  article.piece .wrap{ max-width:760px; }
+  article.piece h1{ font-size:clamp(2rem,4.4vw,2.9rem); margin:14px 0 22px; }
+  .hero{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:18px;
+         margin:0 0 34px; display:block; }
+  .piece-body{ font-size:1.12rem; }
+  .piece-body h2{ font-size:1.55rem; margin:44px 0 14px; }
+  .piece-body h3{ font-size:1.22rem; margin:34px 0 12px; }
+  .piece-body p{ margin:0 0 20px; }
+  .piece-body ul,.piece-body ol{ margin:0 0 22px; padding-left:26px; }
+  .piece-body li{ margin-bottom:9px; }
+  .piece-body blockquote{ margin:26px 0; padding:4px 0 4px 22px;
+                          border-left:3px solid var(--clay); color:var(--ink-soft);
+                          font-family:var(--serif); font-size:1.16rem; }
+  .piece-body hr{ border:0; border-top:1px solid var(--line); margin:36px 0; }
+  .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
+  .endcta{ text-align:center; }
+  .endcta h2{ font-size:clamp(1.5rem,3vw,2rem); margin:0 0 12px; }
+  .endcta p{ color:var(--ink-soft); max-width:56ch; margin:0 auto 24px; }
+  .btn{ display:inline-block; background:var(--pine); color:#fff; text-decoration:none;
+        font-weight:650; padding:15px 30px; border-radius:999px; }
+  .btn:hover{ background:var(--pine-bright); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Soares Systems home">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+        <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+        <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+        <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+      </svg>
+      <span><b>Soares Systems</b><span>Fundamentals first</span></span>
+    </a>
+    <a class="header-cta" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free call</a>
+  </div>
+</header>
+
+<div class="wrap crumb"><a href="/articles/">&#8592; All articles</a></div>
+
+<article class="piece">
+  <div class="wrap">
+    <span class="eyebrow">Soares Systems</span>
+    <h1>60% organizing, 30% fixing handoffs, 10% AI</h1>
+    <img class="hero" src="/articles/images/02-sixty-thirty-ten.jpg" alt="" width="1600" height="900">
+    <div class="piece-body">
+      <p>When people find out I use AI in my work, they assume that is the work.</p>
+      <p>It is about ten percent of it.</p>
+      <p>Here is how the job actually breaks down, and why the order is the whole thing.</p>
+      <h2>60% is organizing</h2>
+      <p>Most of what I do is not clever. I sit down with an owner and their people and pull the business out of their heads.</p>
+      <p>Every process. Every tool. Every "here's how we really handle this," including the version that is different from the official version, which is usually the one that matters.</p>
+      <p>Then it gets written down in plain language and sorted by department. Sales. Jobs. Admin. Money. Client communication. Not in an app. In plain files, in their words, on their own drive.</p>
+      <p>This is the least exciting part of the job and it is where almost all the value is.</p>
+      <p>Because here is what is actually wrong in most small businesses: nothing is broken. The people are fine. The work is good. It is just that how the business runs lives in one or two heads, so everything has to pass through those heads, and those heads are busy.</p>
+      <p>Writing it down does not sound like a solution to that. It is.</p>
+      <h2>30% is fixing the handoffs</h2>
+      <p>Once it is written down, you can see something you could not see before: the seams.</p>
+      <p>Work almost never gets dropped in the middle of a task. It gets dropped when it passes from one person to another. Sales to admin. Admin to the field. The office to the client. That is where things quietly fall through, and it is where the money leaks.</p>
+      <p>Usually it is not a big failure. It is a checklist nobody ever made. A step that only happens if someone remembers. Two people who each assumed the other one did it.</p>
+      <p>You cannot fix these until they are visible, and they are not visible while the whole operation lives in someone's memory. That is why this comes second. The organizing is what makes the problems findable.</p>
+      <h2>10% is AI</h2>
+      <p>Last, and smallest, and only where it earns its place.</p>
+      <p>One or two jobs that are repetitive, high volume, and boring get handed to AI. The follow-up that never goes out. The status update the client is waiting on. The reminder nobody sends.</p>
+      <p>Not everything. Just the parts where a human is being used as a machine.</p>
+      <p>And it goes last for a simple reason. AI pointed at a business that has not been written down is just a very smart person guessing at how you work. Once the business is written down, the same AI has the answers in front of it. Same tool, completely different result.</p>
+      <p>This is also why I am not worried about which AI anyone uses. The value is in the written-down business. The AI is just what reads it. Tools will change. That will not.</p>
+      <h2>Why it is built this way</h2>
+      <p>Two things I should say plainly.</p>
+      <p>First, this is old fashioned. Write down how the work gets done, fix where it gets handed off, then automate the boring edges. People were doing the first two long before any of this technology existed, and they worked then too.</p>
+      <p>Second, the way I build it means you own it. Plain files on your own drive, readable by any person and any AI. No app, no subscription, nothing to keep paying for. If you never speak to me again it keeps working, and if you switch to whatever AI comes out next year it still works, because it was never built around a particular tool.</p>
+      <p>That second part is deliberate. A lot of what gets sold to small businesses puts your operation behind someone else's login. Stop paying and it stops. I did not want to build that.</p>
+      <h2>For anyone who wants to check the thinking</h2>
+      <p>I am not claiming to have invented this. The idea that you organize knowledge into plain files and let a model read what it needs is being worked on seriously by people well beyond me.</p>
+      <p>There is a paper on it: <strong>"Interpretable Context Methodology: Folder Structure as Agentic Architecture"</strong> by Jake Van Clief and David McDermott, published March 2026 (arXiv:2603.16021). It argues that a well organized folder structure can do the job people currently build complicated multi-agent software for. It borrows from Unix pipelines and other ideas that have been around for fifty years, which is the part I like.</p>
+      <p>In June 2026 Google Cloud published an open specification called the <strong>Open Knowledge Format</strong>, along with a public repository. It is a product release rather than a research finding, but the direction is the same one: keep knowledge in an open, portable format instead of locked inside one company's database.</p>
+      <p>And here is the part I find most telling. The companies building the AI everyone is talking about chose this exact approach for their own tools. Anthropic's coding assistant reads a plain markdown file called CLAUDE.md for its instructions, and stores what it needs to remember in ordinary files. Its reusable skills are just folders with a markdown file inside. OpenAI's coding tool does the same thing with a file called AGENTS.md. When the people who build these models needed a way to tell an AI how to do a job, they did not build a database or an app. They wrote it down in plain files in folders. The same thing I am describing here.</p>
+      <p>I mention all this because the idea holds up under scrutiny, not because it is the reason to do it. The reason to do it is that your business stops living in your head.</p>
+      <hr>
+      <h2>Sources (put these at the foot of the published article, or link inline)</h2>
+      <p>The ideas above:</p>
+      <ul>
+      <li>ICM paper: Jake Van Clief &amp; David McDermott, <em>"Interpretable Context Methodology: Folder Structure as Agentic Architecture,"</em> March 2026. https://arxiv.org/abs/2603.16021</li>
+      <li>Google Cloud, <em>"Introducing the Open Knowledge Format,"</em> June 2026. https://cloud.google.com/blog/products/data-analytics/introducing-the-google-cloud-knowledge-catalog</li>
+      </ul>
+      <p>The Anthropic and OpenAI point (each of these is the primary source for a sentence in the article):</p>
+      <ul>
+      <li>Claude Code uses CLAUDE.md markdown as memory: https://code.claude.com/docs/en/memory</li>
+      <li>Anthropic Agent Skills are a folder with a SKILL.md: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</li>
+      <li>Anthropic on writing agent memory out to files: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</li>
+      <li>OpenAI Codex reads AGENTS.md: https://developers.openai.com/codex/guides/agents-md</li>
+      </ul>
+      <hr>
+      <h2>Notes for Darren</h2>
+      <ul>
+      <li><strong>The citation section is deliberately short and second to last.</strong> A realtor does not care about arxiv. It exists so a skeptic who goes looking finds solid ground, not to carry the argument. If you find yourself expanding it, that is a sign the piece is drifting toward the wrong reader.</li>
+      <li><strong>Say "Interpretable," not "Interpreted."</strong> The repo folder in your workspace has it misspelled.</li>
+      <li><strong>Do not write "Google research says."</strong> It is a product announcement and an open spec. Written as-is above, which is accurate.</li>
+      <li><strong>Anthropic and OpenAI: verified and added 2026-07-20.</strong> The claim is true ONLY about their coding/agent tools (Claude Code, Codex), not their core AI. The paragraph is written narrowly on purpose. <strong>Do not broaden it</strong> to "how they build their AI systems" or "behind the scenes", which is unsupported and a knowledgeable reader would catch it. Sources in this folder's CONTEXT.md.</li>
+      <li>The "nothing is broken, the people are fine" paragraph in the 60% section is the most quotable part. Good native post on its own.</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<section class="band inset endcta">
+  <div class="wrap">
+    <h2>Want this done to your business?</h2>
+    <p>A free fifteen minute call. You tell me what eats your time, I tell you straight whether
+       a cleanup would fix it.</p>
+    <a class="btn" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free call</a>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="/" aria-label="Soares Systems home">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+        <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+        <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+        <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+      </svg>
+          <b>Soares Systems</b>
+        </a>
+        <p class="fine">Darren Soares. Fundamentals first, AI tools last.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="/articles/">Articles</a>
+        <a href="/realtor/">In real estate? Start here</a>
+        <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
+        <a href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "intro", { origin: "https://app.cal.com" });
+Cal.ns.intro("ui", { cssVarsPerTheme: { light: { "cal-brand": "#1C5A43" } }, hideEventTypeDetails: false, layout: "month_view" });
+document.querySelectorAll('[data-cal-link]').forEach(function (el) {
+  el.addEventListener('click', function (e) { e.preventDefault(); });
+});
+</script>
+</body>
+</html>
