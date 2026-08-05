@@ -314,6 +314,12 @@
   .reveal.in{ opacity:1; transform:none; }
   @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; transition:none; } * { scroll-behavior:auto; } }
 </style>
+
+<!-- The article carousel's styles. Written by article-pipeline/stages/06-publish/make-article-pages.py,
+     which fills the three ARTICLES: regions on this page from the published set. Do not hand-edit
+     between the markers; the next publish overwrites it. Empty until the first piece is live. -->
+<!-- ARTICLES:CAROUSELCSS -->
+<!-- /ARTICLES:CAROUSELCSS -->
 </head>
 
 <body>
@@ -676,6 +682,13 @@
   </div>
 </section>
 
+<!-- ===================== ARTICLES (generated) =====================
+     The carousel of published pieces. Written by make-article-pages.py from the tracker, so
+     it can never advertise a piece that is not actually live. Plain band on purpose: the FAQ
+     above is inset, and the bands alternate. -->
+<!-- ARTICLES:CAROUSEL -->
+<!-- /ARTICLES:CAROUSEL -->
+
 <footer class="site">
   <div class="wrap">
     <div class="cols">
@@ -693,6 +706,8 @@
         <p class="fine">Darren Soares. Fundamentals first, AI tools last.</p>
       </div>
       <nav aria-label="Footer">
+<!-- ARTICLES:FOOTERLINK -->
+<!-- /ARTICLES:FOOTERLINK -->
         <a href="/realtor/">In real estate? Start here</a>
         <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
         <a href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call</a>

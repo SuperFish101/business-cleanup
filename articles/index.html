@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Articles | Soares Systems</title>
+<meta name="description" content="Plain writing on getting a business organised before you point AI at it. Fundamentals first, AI tools last.">
+<link rel="canonical" href="https://soaressystems.com/articles/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Articles | Soares Systems">
+<meta property="og:description" content="Plain writing on getting a business organised before you point AI at it.">
+<meta property="og:url" content="https://soaressystems.com/articles/">
+<meta property="og:image" content="https://soaressystems.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    color-scheme:light;
+    --paper:#F6F5EF; --paper-2:#ECEADF; --pine:#1C5A43; --pine-bright:#226E52;
+    --clay:#C6892A; --clay-soft:#E4C083; --ink:#1E2620; --ink-soft:#535A52;
+    --line:#DCD9CC; --shadow:26 38 32;
+    --serif:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  :root[data-theme="dark"]{ color-scheme:light; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+        font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .wrap{ width:100%; max-width:1120px; margin:0 auto; padding:0 24px; }
+  a{ color:var(--pine); }
+
+  header.site{ border-bottom:1px solid var(--line); background:var(--paper); }
+  header.site .wrap{ display:flex; align-items:center; justify-content:space-between; gap:18px;
+                     min-height:74px; }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .brand .mark{ width:34px; height:34px; flex:none; border-radius:8px; }
+  .brand b{ font-family:var(--serif); font-size:1.12rem; letter-spacing:-.01em; display:block; }
+  .brand span span{ display:block; font-size:.76rem; color:var(--ink-soft); letter-spacing:.04em; }
+  .header-cta{ background:var(--pine); color:#fff; text-decoration:none; font-weight:650;
+               font-size:.92rem; padding:11px 18px; border-radius:999px; white-space:nowrap; }
+  .header-cta:hover{ background:var(--pine-bright); }
+
+  .band{ padding:64px 0; }
+  .band.inset{ background:var(--paper-2); }
+  .eyebrow{ font-size:.78rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+            color:var(--clay); display:block; margin-bottom:10px; }
+  h1,h2,h3{ font-family:var(--serif); letter-spacing:-.015em; line-height:1.15; }
+
+  footer.site{ border-top:1px solid var(--line); padding:40px 0; background:var(--paper); }
+  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px; justify-content:space-between; }
+  footer.site nav{ display:flex; flex-direction:column; gap:8px; }
+  footer.site a{ color:var(--ink); text-decoration:none; font-size:.95rem; }
+  footer.site a:hover{ color:var(--pine); }
+  .fine{ color:var(--ink-soft); font-size:.88rem; margin:10px 0 0; }
+
+  .acard{ display:flex; flex-direction:column; background:var(--paper);
+          border:1px solid var(--line); border-radius:16px; overflow:hidden;
+          text-decoration:none; color:inherit;
+          transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .acard:hover{ transform:translateY(-3px); border-color:var(--clay-soft);
+                box-shadow:0 18px 38px -22px rgb(var(--shadow) / .45); }
+  /* height:auto is load-bearing. The tags carry width="1600" height="900" so the browser can
+     reserve the space before the image loads, but that height attribute is a presentation hint
+     and it beats aspect-ratio. Without this line every card renders 900px tall. */
+  .acard img{ width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; display:block;
+              background:var(--paper-2); }
+  .acard .body{ padding:20px 22px 24px; display:flex; flex-direction:column; gap:9px; flex:1; }
+  .acard h3{ margin:0; font-size:1.16rem; }
+  .acard p{ margin:0; color:var(--ink-soft); font-size:.95rem; line-height:1.55; }
+  .acard .more{ margin-top:auto; padding-top:6px; color:var(--pine); font-weight:650;
+                font-size:.92rem; }
+
+  .lede{ padding:56px 0 10px; }
+  .lede h1{ font-size:clamp(2.1rem,5vw,3rem); margin:0 0 14px; }
+  .lede p{ color:var(--ink-soft); max-width:60ch; margin:0; font-size:1.06rem; }
+  .agrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:24px;
+          padding:38px 0 72px; }
+  .soon{ color:var(--ink-soft); padding:34px 0 72px; font-size:1.05rem; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Soares Systems home">
+      <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+        <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+        <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+        <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+      </svg>
+      <span><b>Soares Systems</b><span>Fundamentals first</span></span>
+    </a>
+    <a class="header-cta" href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free call</a>
+  </div>
+</header>
+
+<div class="wrap lede">
+  <span class="eyebrow">Writing</span>
+  <h1>Articles</h1>
+  <p>Plain writing on getting a business organised before you point AI at it. No hype, no jargon,
+     nothing you need a technical background to follow.</p>
+</div>
+
+<div class="wrap">
+    <p class="soon">The first pieces are being edited now. They land here as they are finished.</p>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="brand" href="/" aria-label="Soares Systems home">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+        <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+        <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+        <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+      </svg>
+          <b>Soares Systems</b>
+        </a>
+        <p class="fine">Darren Soares. Fundamentals first, AI tools last.</p>
+      </div>
+      <nav aria-label="Footer">
+        <a href="/articles/">Articles</a>
+        <a href="/realtor/">In real estate? Start here</a>
+        <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
+        <a href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", "intro", { origin: "https://app.cal.com" });
+Cal.ns.intro("ui", { cssVarsPerTheme: { light: { "cal-brand": "#1C5A43" } }, hideEventTypeDetails: false, layout: "month_view" });
+document.querySelectorAll('[data-cal-link]').forEach(function (el) {
+  el.addEventListener('click', function (e) { e.preventDefault(); });
+});
+</script>
+</body>
+</html>
