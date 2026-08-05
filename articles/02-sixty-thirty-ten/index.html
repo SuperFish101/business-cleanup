@@ -77,6 +77,23 @@
                           font-family:var(--serif); font-size:1.16rem; }
   .piece-body hr{ border:0; border-top:1px solid var(--line); margin:36px 0; }
   .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
+  /* Citations, folded. Quiet grey so it reads as a footnote rather than as a section, and
+     closed by default so nobody scrolls a list of links to reach the call to action. */
+  .sources{ max-width:760px; margin:6px auto 0; padding:0 24px 54px; }
+  .sources summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center;
+                    gap:7px; color:var(--ink-soft); font-size:.88rem; letter-spacing:.02em;
+                    padding:6px 0; }
+  .sources summary::-webkit-details-marker{ display:none; }
+  .sources summary::after{ content:"\203A"; transform:rotate(90deg); transition:transform .18s ease;
+                           font-size:1.05rem; line-height:1; }
+  .sources[open] summary::after{ transform:rotate(-90deg); }
+  .sources summary:hover{ color:var(--pine); }
+  .sources summary:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .sources-body{ color:var(--ink-soft); font-size:.94rem; padding:6px 0 0; }
+  .sources-body p{ margin:0 0 12px; }
+  .sources-body ul{ margin:0 0 16px; padding-left:22px; }
+  .sources-body li{ margin-bottom:8px; overflow-wrap:anywhere; }
+
   .endcta{ text-align:center; }
   .endcta h2{ font-size:clamp(1.5rem,3vw,2rem); margin:0 0 12px; }
   .endcta p{ color:var(--ink-soft); max-width:56ch; margin:0 auto 24px; }
@@ -143,22 +160,25 @@
       <p>In June 2026 Google Cloud published an open specification called the <strong>Open Knowledge Format</strong>, along with a public repository. It is a product release rather than a research finding, but the direction is the same one: keep knowledge in an open, portable format instead of locked inside one company's database.</p>
       <p>And here is the part I find most telling. The companies building the AI everyone is talking about chose this exact approach for their own tools. Anthropic's coding assistant reads a plain markdown file called CLAUDE.md for its instructions, and stores what it needs to remember in ordinary files. Its reusable skills are just folders with a markdown file inside. OpenAI's coding tool does the same thing with a file called AGENTS.md. When the people who build these models needed a way to tell an AI how to do a job, they did not build a database or an app. They wrote it down in plain files in folders. The same thing I am describing here.</p>
       <p>I mention all this because the idea holds up under scrutiny, not because it is the reason to do it. The reason to do it is that your business stops living in your head.</p>
-      <hr>
-      <h2>Sources (put these at the foot of the published article, or link inline)</h2>
+    </div>
+    <details class="sources">
+      <summary>Sources</summary>
+      <div class="sources-body">
       <p>The ideas above:</p>
       <ul>
-      <li>ICM paper: Jake Van Clief &amp; David McDermott, <em>"Interpretable Context Methodology: Folder Structure as Agentic Architecture,"</em> March 2026. https://arxiv.org/abs/2603.16021</li>
-      <li>Google Cloud, <em>"Introducing the Open Knowledge Format,"</em> June 2026. https://cloud.google.com/blog/products/data-analytics/introducing-the-google-cloud-knowledge-catalog</li>
+      <li>ICM paper: Jake Van Clief &amp; David McDermott, <em>"Interpretable Context Methodology: Folder Structure as Agentic Architecture,"</em> March 2026. <a href="https://arxiv.org/abs/2603.16021">https://arxiv.org/abs/2603.16021</a></li>
+      <li>Google Cloud, <em>"Introducing the Open Knowledge Format,"</em> June 2026. <a href="https://cloud.google.com/blog/products/data-analytics/introducing-the-google-cloud-knowledge-catalog">https://cloud.google.com/blog/products/data-analytics/introducing-the-google-cloud-knowledge-catalog</a></li>
       </ul>
       <p>The Anthropic and OpenAI point (each of these is the primary source for a sentence in the article):</p>
       <ul>
-      <li>Claude Code uses CLAUDE.md markdown as memory: https://code.claude.com/docs/en/memory</li>
-      <li>Anthropic Agent Skills are a folder with a SKILL.md: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</li>
-      <li>Anthropic on writing agent memory out to files: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</li>
-      <li>OpenAI Codex reads AGENTS.md: https://developers.openai.com/codex/guides/agents-md</li>
+      <li>Claude Code uses CLAUDE.md markdown as memory: <a href="https://code.claude.com/docs/en/memory">https://code.claude.com/docs/en/memory</a></li>
+      <li>Anthropic Agent Skills are a folder with a SKILL.md: <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</a></li>
+      <li>Anthropic on writing agent memory out to files: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</a></li>
+      <li>OpenAI Codex reads AGENTS.md: <a href="https://developers.openai.com/codex/guides/agents-md">https://developers.openai.com/codex/guides/agents-md</a></li>
       </ul>
       <hr>
-    </div>
+      </div>
+    </details>
   </div>
 </article>
 

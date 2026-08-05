@@ -77,6 +77,23 @@
                           font-family:var(--serif); font-size:1.16rem; }
   .piece-body hr{ border:0; border-top:1px solid var(--line); margin:36px 0; }
   .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
+  /* Citations, folded. Quiet grey so it reads as a footnote rather than as a section, and
+     closed by default so nobody scrolls a list of links to reach the call to action. */
+  .sources{ max-width:760px; margin:6px auto 0; padding:0 24px 54px; }
+  .sources summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center;
+                    gap:7px; color:var(--ink-soft); font-size:.88rem; letter-spacing:.02em;
+                    padding:6px 0; }
+  .sources summary::-webkit-details-marker{ display:none; }
+  .sources summary::after{ content:"\203A"; transform:rotate(90deg); transition:transform .18s ease;
+                           font-size:1.05rem; line-height:1; }
+  .sources[open] summary::after{ transform:rotate(-90deg); }
+  .sources summary:hover{ color:var(--pine); }
+  .sources summary:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .sources-body{ color:var(--ink-soft); font-size:.94rem; padding:6px 0 0; }
+  .sources-body p{ margin:0 0 12px; }
+  .sources-body ul{ margin:0 0 16px; padding-left:22px; }
+  .sources-body li{ margin-bottom:8px; overflow-wrap:anywhere; }
+
   .endcta{ text-align:center; }
   .endcta h2{ font-size:clamp(1.5rem,3vw,2rem); margin:0 0 12px; }
   .endcta p{ color:var(--ink-soft); max-width:56ch; margin:0 auto 24px; }
@@ -135,8 +152,8 @@
       <p>Because AI pointed at a clean, written-down business is genuinely useful. It has the answers in front of it, so it stops guessing and starts following. But AI pointed at the mess is just a very smart person guessing at how you work, and now doing it fast. Same tool. The difference was never the tool. It was whether the house was clean before you let it in.</p>
       <p>So before you buy the next thing, clean the house. Write the business down. Cut the tools that are not pulling their weight. Then, and only then, look at what is worth automating. You will spend less and drop less, which is the opposite of what the next shiny app is promising you.</p>
       <p>If you want, that is exactly the work I do with people: get it out of your head, onto paper, down to the few tools that matter, and then a little AI on the boring edges. But you can start the first part yourself this week, for free, and you should. Pick the messiest job you do and just write down how it actually works. You will feel the difference before you have spent a dollar.</p>
-      <hr>
     </div>
+    
   </div>
 </article>
 

@@ -77,6 +77,23 @@
                           font-family:var(--serif); font-size:1.16rem; }
   .piece-body hr{ border:0; border-top:1px solid var(--line); margin:36px 0; }
   .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
+  /* Citations, folded. Quiet grey so it reads as a footnote rather than as a section, and
+     closed by default so nobody scrolls a list of links to reach the call to action. */
+  .sources{ max-width:760px; margin:6px auto 0; padding:0 24px 54px; }
+  .sources summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center;
+                    gap:7px; color:var(--ink-soft); font-size:.88rem; letter-spacing:.02em;
+                    padding:6px 0; }
+  .sources summary::-webkit-details-marker{ display:none; }
+  .sources summary::after{ content:"\203A"; transform:rotate(90deg); transition:transform .18s ease;
+                           font-size:1.05rem; line-height:1; }
+  .sources[open] summary::after{ transform:rotate(-90deg); }
+  .sources summary:hover{ color:var(--pine); }
+  .sources summary:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .sources-body{ color:var(--ink-soft); font-size:.94rem; padding:6px 0 0; }
+  .sources-body p{ margin:0 0 12px; }
+  .sources-body ul{ margin:0 0 16px; padding-left:22px; }
+  .sources-body li{ margin-bottom:8px; overflow-wrap:anywhere; }
+
   .endcta{ text-align:center; }
   .endcta h2{ font-size:clamp(1.5rem,3vw,2rem); margin:0 0 12px; }
   .endcta p{ color:var(--ink-soft); max-width:56ch; margin:0 auto 24px; }
@@ -155,11 +172,11 @@
       <p>I mention this so a skeptic who goes looking finds solid ground. It is not the reason to do it. The reason to do it is that your business stops living in your head.</p>
       <h2>Two ways to go from here</h2>
       <p>You now know the real order. Foundation first, then the AI on top. Both roads from here are good.</p>
-      <p>If you want to build it yourself, go check out Jake Van Clief. His free community, Clief Notes, teaches this start to finish with dozens of free lessons. If you are the hands-on type, start there: https://www.skool.com/cliefnotes</p>
-      <p>If you would rather someone did it for you, that is what I do. I pull the whole business out of your head, organize it into one clean system you own, fix the spots where work gets dropped between people, and point AI at the few jobs actually worth it. You end up with your operation on one page and a system that runs without living in your memory. Book a short call and I will show you your operation on one page: https://calendar.app.google/NzJhnGVMQjoKUvrDA</p>
+      <p>If you want to build it yourself, go check out Jake Van Clief. His free community, Clief Notes, teaches this start to finish with dozens of free lessons. If you are the hands-on type, start there: <a href="https://www.skool.com/cliefnotes">https://www.skool.com/cliefnotes</a></p>
+      <p>If you would rather someone did it for you, that is what I do. I pull the whole business out of your head, organize it into one clean system you own, fix the spots where work gets dropped between people, and point AI at the few jobs actually worth it. You end up with your operation on one page and a system that runs without living in your memory. Book a short call and I will show you your operation on one page: <a href="https://calendar.app.google/NzJhnGVMQjoKUvrDA">https://calendar.app.google/NzJhnGVMQjoKUvrDA</a></p>
       <p>Either way, do the one-folder thing this week. It is the fastest way to feel the difference for yourself.</p>
-      <hr>
     </div>
+    
   </div>
 </article>
 

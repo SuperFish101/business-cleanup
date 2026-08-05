@@ -77,6 +77,23 @@
                           font-family:var(--serif); font-size:1.16rem; }
   .piece-body hr{ border:0; border-top:1px solid var(--line); margin:36px 0; }
   .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
+  /* Citations, folded. Quiet grey so it reads as a footnote rather than as a section, and
+     closed by default so nobody scrolls a list of links to reach the call to action. */
+  .sources{ max-width:760px; margin:6px auto 0; padding:0 24px 54px; }
+  .sources summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center;
+                    gap:7px; color:var(--ink-soft); font-size:.88rem; letter-spacing:.02em;
+                    padding:6px 0; }
+  .sources summary::-webkit-details-marker{ display:none; }
+  .sources summary::after{ content:"\203A"; transform:rotate(90deg); transition:transform .18s ease;
+                           font-size:1.05rem; line-height:1; }
+  .sources[open] summary::after{ transform:rotate(-90deg); }
+  .sources summary:hover{ color:var(--pine); }
+  .sources summary:focus-visible{ outline:3px solid var(--clay-soft); outline-offset:3px; }
+  .sources-body{ color:var(--ink-soft); font-size:.94rem; padding:6px 0 0; }
+  .sources-body p{ margin:0 0 12px; }
+  .sources-body ul{ margin:0 0 16px; padding-left:22px; }
+  .sources-body li{ margin-bottom:8px; overflow-wrap:anywhere; }
+
   .endcta{ text-align:center; }
   .endcta h2{ font-size:clamp(1.5rem,3vw,2rem); margin:0 0 12px; }
   .endcta p{ color:var(--ink-soft); max-width:56ch; margin:0 auto 24px; }
@@ -143,8 +160,8 @@
       <p>The same hire in a business where the work is written down and the boring parts are handled performs like a much more experienced person. Not because they changed. Because they finally have something to work from, and their day is not eaten by tasks a machine could have done.</p>
       <p>And when someone does leave, which they will, how the business runs stays. They take their ambition with them. They do not take the operation.</p>
       <p>That is the actual product. Not automation. <strong>The business stops depending on who happens to be in the building.</strong></p>
-      <hr>
     </div>
+    
   </div>
 </article>
 
