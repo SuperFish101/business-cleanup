@@ -601,6 +601,12 @@
   }
   .askpill[hidden] { display: none; }
   .askpill.on { opacity: 1; transform: none; pointer-events: auto; }
+  /* Entrance blink (Darren, 2026-08-02): fade in, then dip twice, then stop and sit there.
+     Runs ONCE, on the timed arrival only — the class is added there and removed when the
+     animation ends, so closing the interview brings the pill back without a second blink.
+     Opacity only, so the slide-up on .askpill.on stays a plain transition underneath. */
+  @keyframes askpill-blink { 0% { opacity: 0; } 23% { opacity: 1; } 42% { opacity: .35; } 61% { opacity: 1; } 80% { opacity: .35; } 100% { opacity: 1; } }
+  .askpill.blink { animation: askpill-blink 1.3s ease both; }
   .askpill:hover { background: var(--pine-bright); color: #fff; }
   .askpill:focus-visible { outline: 3px solid var(--clay-soft); outline-offset: 3px; }
   .askpill .pico { flex: none; display: flex; color: var(--clay-soft); }
@@ -639,7 +645,7 @@
     .askpanel { inset: 0; width: 100%; max-width: none; height: 100%; height: 100dvh; border: 0; border-radius: 0; transform: translateY(20px); }
     html.askopen, html.askopen body { overflow: hidden; }
   }
-  @media (prefers-reduced-motion: reduce) { .askpill, .askpanel { transition: none; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .askpill, .askpanel { transition: none; transform: none; } .askpill.blink { animation: none; } }
 
   /* ---------- mobile hardening ---------- */
   /* The chaos view is absolutely positioned for desktop. Once the container narrows
@@ -1312,20 +1318,29 @@
     if (!pill || !panel) return;
 
     // The one knob: how long a visitor gets to read before the pill shows up.
-    var SHOW_AFTER_MS = 15000;
+    // Was 15000; dropped to 8000 (Darren, 2026-08-02) — fifteen was too long a wait.
+    var SHOW_AFTER_MS = 8000;
 
     var frame = panel.querySelector('iframe');
     var closeBtn = panel.querySelector('.pclose');
     var loaded = false, panelOpen = false;
 
-    function showPill() { if (!panelOpen) pill.classList.add('on'); }
+    // `blink` is true only on the pill's first arrival. Reopening it after the interview is
+    // closed is not an entrance, so it comes back quietly.
+    function showPill(blink) {
+      if (panelOpen) return;
+      if (blink) pill.classList.add('blink');
+      pill.classList.add('on');
+    }
+    // Drop the class once it has played, so the pill is left in a plain resting state.
+    pill.addEventListener('animationend', function () { pill.classList.remove('blink'); });
 
     // Already met the pill earlier in this visit? Don't make them wait through the delay again.
     var seen = false;
     try { seen = window.sessionStorage.getItem('ss-ask-seen') === '1'; } catch (err) {}
     pill.hidden = false;
     window.setTimeout(function () {
-      showPill();
+      showPill(true);
       try { window.sessionStorage.setItem('ss-ask-seen', '1'); } catch (err) {}
     }, seen ? 600 : SHOW_AFTER_MS);
 
