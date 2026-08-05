@@ -302,9 +302,9 @@
         '<a class="btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book a time with Darren</a>';
       els.wrap.appendChild(b); scroll();
       localStorage.removeItem(TKEY); // interview done, clear the resume cache
-      // The one moment worth counting on this page: they finished the interview and were handed
-      // the booking link. Starting it is counted on the sales pages as intake_open.
-      try { gtag('event', 'intake_complete'); } catch (e) {}
+      // They finished and got handed the booking link. answers_given rides along so a completion
+      // can be compared against the intake_answer counts from everyone who quit part way.
+      try { gtag('event', 'intake_complete', { answers_given: answered }); } catch (e) {}
     }
     function failSoft(){
       typing(false); busy=false;
@@ -315,8 +315,19 @@
 
     // ---------- one server turn ----------
     // isVoice: this turn sent audio, so we expect res.answerText (the transcription) back to fill the bubble.
+    // How far people get before they quit. This is the whole point of measuring the intake:
+    // intake_start says they actually engaged, and answer_count on every turn says where they
+    // gave up. Compare against intake_complete and the drop-off point is visible instead of
+    // guessed at. Counting turns here, not in the composer, so a voice answer counts the same
+    // as a typed one.
+    var answered = 0;
     function turn(payload, isVoice){
       if(finished) return;
+      answered += 1;
+      try {
+        if (answered === 1) gtag('event', 'intake_start');
+        gtag('event', 'intake_answer', { answer_count: answered });
+      } catch (e) {}
       busy = true; els.send.disabled = true; typing(true);
       payload.sessionId = sessionId; payload.secret = SHARED_SECRET; payload.history = history();
       payload.speak = voiceOn; // n8n: skip the text-to-speech node when this is false
