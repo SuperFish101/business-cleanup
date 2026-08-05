@@ -19,28 +19,42 @@
 <meta name="twitter:description" content="Right now you are being sold AI. Agents that answer your leads. Bots that follow up. Systems that run your business whil">
 <meta name="twitter:image" content="https://soaressystems.com/articles/images/01-ai-cant-fix-what-isnt-written-down-og.jpg">
 <style>
-  :root{
-    color-scheme:light;
-    --paper:#F6F5EF; --paper-2:#ECEADF; --pine:#1C5A43; --pine-bright:#226E52;
-    --clay:#C6892A; --clay-soft:#E4C083; --ink:#1E2620; --ink-soft:#535A52;
-    --line:#DCD9CC; --shadow:26 38 32;
-    --serif:Charter,'Iowan Old Style',Georgia,'Times New Roman',serif;
-    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  /* Palette and type are COPIED VERBATIM from home.html, which copies the brand guide.
+     Do not retype these values, and do not "tidy" them: an article page sitting next to a sales
+     page makes any drift obvious, and a hand-typed near-miss is exactly how it happened once
+     (2026-08-05, wrong line colour and a missing --ink-faint). If the brand changes, change
+     ../../../brand/brand-guide.md and the sales pages, then paste the block down here. */
+  :root, :root[data-theme="dark"], :root[data-theme="light"] {
+    --paper:#F6F5EF; --paper-2:#ECEADF; --card:#FFFFFF;
+    --ink:#1E2620; --ink-soft:#535A52; --ink-faint:#727A70;
+    --pine:#1C5A43; --pine-bright:#25714F;
+    --clay:#C6892A; --clay-soft:#D8A24A;
+    --line:#E4E1D5; --line-soft:#EFECE2;
+    --shadow:20 26 20;
+    color-scheme: light;
+    --serif:"Charter","Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+    --maxw:1120px; --gutter:clamp(20px,5vw,72px);
   }
-  :root[data-theme="dark"]{ color-scheme:light; }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
         font-size:18px; line-height:1.65; -webkit-font-smoothing:antialiased; }
-  .wrap{ width:100%; max-width:1120px; margin:0 auto; padding:0 24px; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter); }
   a{ color:var(--pine); }
 
-  header.site{ border-bottom:1px solid var(--line); background:var(--paper); }
+  /* The header lockup is the sales pages' rule, character for character. "FUNDAMENTALS FIRST"
+     is small, uppercase, wide-tracked and faint; anything else and an article reads as a
+     different site the moment someone clicks through from the front page. */
+  header.site{ position:sticky; top:0; z-index:40; background:var(--paper);
+               border-bottom:1px solid var(--line); }
   header.site .wrap{ display:flex; align-items:center; justify-content:space-between; gap:18px;
-                     min-height:74px; }
-  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
-  .brand .mark{ width:34px; height:34px; flex:none; border-radius:8px; }
-  .brand b{ font-family:var(--serif); font-size:1.12rem; letter-spacing:-.01em; display:block; }
-  .brand span span{ display:block; font-size:.76rem; color:var(--ink-soft); letter-spacing:.04em; }
+                     padding-top:14px; padding-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--ink); }
+  .brand .mark{ width:34px; height:34px; flex:0 0 auto; }
+  .brand b{ font-family:var(--serif); font-size:1.18rem; font-weight:600; letter-spacing:-.01em;
+            word-spacing:-.06em; white-space:nowrap; }
+  .brand span{ display:block; font-family:var(--sans); font-size:.7rem; letter-spacing:.12em;
+               text-transform:uppercase; color:var(--ink-faint); font-weight:700; }
   .header-cta{ background:var(--pine); color:#fff; text-decoration:none; font-weight:650;
                font-size:.92rem; padding:11px 18px; border-radius:999px; white-space:nowrap; }
   .header-cta:hover{ background:var(--pine-bright); }
@@ -51,12 +65,15 @@
             color:var(--clay); display:block; margin-bottom:10px; }
   h1,h2,h3{ font-family:var(--serif); letter-spacing:-.015em; line-height:1.15; }
 
-  footer.site{ border-top:1px solid var(--line); padding:40px 0; background:var(--paper); }
-  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px; justify-content:space-between; }
-  footer.site nav{ display:flex; flex-direction:column; gap:8px; }
-  footer.site a{ color:var(--ink); text-decoration:none; font-size:.95rem; }
-  footer.site a:hover{ color:var(--pine); }
-  .fine{ color:var(--ink-soft); font-size:.88rem; margin:10px 0 0; }
+  /* Footer, also the sales pages' rule. */
+  footer.site{ background:var(--paper); border-top:1px solid var(--line); padding:52px 0; }
+  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px 48px; align-items:flex-start;
+                     justify-content:space-between; }
+  footer.site .brand b{ font-size:1.12rem; }
+  footer.site .fine{ color:var(--ink-faint); font-size:.9rem; max-width:34ch; margin:12px 0 0; }
+  footer.site nav{ display:flex; flex-direction:column; gap:10px; font-size:.98rem; }
+  footer.site nav a{ color:var(--pine); text-decoration:underline; text-underline-offset:2px; }
+  footer.site nav a:hover{ color:var(--pine-bright); }
 
   .crumb{ padding:22px 0 0; font-size:.9rem; }
   .crumb a{ color:var(--ink-soft); text-decoration:none; }
@@ -79,7 +96,8 @@
   .piece-body code{ font-size:.94em; background:var(--paper-2); padding:2px 6px; border-radius:5px; }
   /* Citations, folded. Quiet grey so it reads as a footnote rather than as a section, and
      closed by default so nobody scrolls a list of links to reach the call to action. */
-  .sources{ max-width:760px; margin:6px auto 0; padding:0 24px 54px; }
+  .sources{ max-width:calc(760px + var(--gutter) * 2); margin:6px auto 0;
+            padding:0 var(--gutter) 54px; }
   .sources summary{ cursor:pointer; list-style:none; display:inline-flex; align-items:center;
                     gap:7px; color:var(--ink-soft); font-size:.88rem; letter-spacing:.02em;
                     padding:6px 0; }
@@ -187,7 +205,7 @@
       </svg>
           <b>Soares Systems</b>
         </a>
-        <p class="fine">Darren Soares. Fundamentals first, AI tools last.</p>
+        <p class="fine">Fundamentals first, AI tools last.</p>
       </div>
       <nav aria-label="Footer">
         <a href="/articles/">Articles</a>
