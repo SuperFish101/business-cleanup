@@ -3,6 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Google Analytics 4 (G-L01G7VP0D3). This exact block ships on every page AND inside
+     article-pipeline/stages/07-publish/make-article-pages.py. If the ID changes, grep the string
+     and change every copy; do not edit one file and assume. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L01G7VP0D3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-L01G7VP0D3');
+
+  /* GA4 counts pageviews, scroll depth and outbound clicks by itself. These four are the ones
+     Darren asked for and they have to be wired by hand. One identical block ships on every page,
+     so every hook is guarded: a page without that element simply never fires it. */
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest(
+      '[data-cal-link], #askpill, a[href="/intake/"], a.acard, a[href^="/articles/"]') : null;
+    if (!el) return;
+    if (el.hasAttribute('data-cal-link'))            gtag('event', 'book_call_click', { where: document.title });
+    else if (el.id === 'askpill')                    gtag('event', 'intake_open', { opened_from: 'pill' });
+    else if (el.getAttribute('href') === '/intake/') gtag('event', 'intake_open', { opened_from: 'band' });
+    else                                             gtag('event', 'article_click', { article: el.getAttribute('href') });
+  }, true);
+
+  /* The click above only proves someone opened the booking popup. The booking itself happens
+     inside Cal's iframe, so Cal has to tell us. Waits for load because the page's own Cal block
+     runs after this one, and uses the "intro" namespace the buttons are wired to. */
+  window.addEventListener('load', function () {
+    var C = (window.Cal && window.Cal.ns && window.Cal.ns['intro']) ? window.Cal.ns['intro'] : window.Cal;
+    if (typeof C !== 'function') return;
+    try {
+      C('on', { action: 'bookingSuccessful', callback: function () {
+        gtag('event', 'book_call_completed', { where: document.title });
+      }});
+    } catch (err) {}
+  });
+</script>
 <title>Soares Systems | Fundamentals first, AI tools last</title>
 <meta name="description" content="Stop chasing tools. Get your business organized into one system you own, then add AI only where it pays off. Book a free intro call.">
 <link rel="canonical" href="https://soaressystems.com/">
