@@ -55,8 +55,14 @@
       --ink:#1E2620; --ink-soft:#535A52; --ink-faint:#727A70;
       --line:#E4E1D5; --line-soft:#EFECE2;
       --radius:14px;
-      --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      --serif:Georgia,"Times New Roman",serif;
+      /* COPIED VERBATIM from home.html. Do not retype these. The wordmark read wrong on this page
+         for exactly one reason: this file had a shortened serif stack, so the site rendered
+         "Soares Systems" in Charter and this page fell back to Georgia, which is blacker and
+         wider. The colors were right the whole time. Third time a hand-typed copy of the site's
+         look has drifted (see WORKLOG 2026-08-05). If these ever need changing, change home.html
+         and copy, never edit one and assume. */
+      --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Helvetica Neue",Arial,sans-serif;
+      --serif:"Charter","Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;
     }
     *{box-sizing:border-box}
     html,body{margin:0;height:100%}
@@ -74,9 +80,16 @@
       display:flex; align-items:center; gap:10px;
       padding:14px 18px; border-bottom:1px solid var(--line); background:var(--card);
     }
+    /* The lockup is a link to the main site, so someone who lands here from a private link can go
+       and see who Darren is. Same colors and same fonts as the site header, deliberately. */
+    header .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink)}
+    header .brand:hover .name{color:var(--green)}
+    header .brand:focus-visible{outline:2px solid var(--green); outline-offset:3px; border-radius:8px}
     header svg{width:30px;height:30px;flex:none;border-radius:8px}
-    header .name{font-family:var(--serif); font-size:18px; font-weight:600; color:var(--ink)}
-    header .tag{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint)}
+    header .name{font-family:var(--serif); font-size:18px; font-weight:600; color:var(--ink);
+      letter-spacing:-.01em; word-spacing:-.06em; transition:color .15s ease}
+    header .tag{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);
+      font-weight:700}
     .embed header{display:none}
     .embed main{padding-top:44px}
 
@@ -124,8 +137,10 @@
     .send:disabled{opacity:.4; cursor:default}
 
     /* Secondary row: reading replies aloud is OFF until someone asks for it. */
+    /* Centred, not pushed to the edges. Split left-and-right, the Done button ended up floating
+       off in the corner instead of reading as the thing you press when you are finished. */
     .crow{max-width:640px; margin:8px auto 0; display:flex; align-items:center;
-      justify-content:space-between; gap:10px; flex-wrap:wrap}
+      justify-content:center; gap:12px; flex-wrap:wrap}
     .voice{
       display:inline-flex; align-items:center; gap:8px; min-height:38px; padding:0 13px;
       border-radius:999px; border:1px solid var(--line); background:var(--ground);
@@ -164,17 +179,19 @@
 </head>
 <body>
   <header>
-    <svg viewBox="0 0 100 100" role="img" aria-label="Soares Systems">
-      <rect width="100" height="100" rx="20" fill="#1C5A43"/>
-      <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
-      <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
-      <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
-      <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
-    </svg>
-    <div>
-      <div class="name">Soares Systems</div>
-      <div class="tag">Fundamentals first</div>
-    </div>
+    <a class="brand" href="https://soaressystems.com/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Soares Systems">
+        <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+        <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+        <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+        <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+      </svg>
+      <div>
+        <div class="name">Soares Systems</div>
+        <div class="tag">Fundamentals first</div>
+      </div>
+    </a>
   </header>
 
   <main>
@@ -395,7 +412,7 @@
         if (answered === 1) gtag('event', 'intake_start');
         gtag('event', 'intake_answer', { answer_count: answered });
       } catch (e) {}
-      busy = true; els.send.disabled = true; typing(true);
+      busy = true; typing(true); syncComposerButtons();
       payload.sessionId = sessionId; payload.secret = SHARED_SECRET; payload.history = history();
       payload.speak = voiceOn; // n8n: skip the text-to-speech node when this is false
       payload.mode = wireMode; // discovery | dump (never "talk" — that word stops at the page)
@@ -434,7 +451,7 @@
         if(q){ bubble('them', q); pushLog('them', q); }
         playAudio(res.audioBase64 || res.audio);
         if(res.done){ showBooking(res.closingText); }
-        else { els.send.disabled = els.text.value.trim() === ''; }
+        else { syncComposerButtons(); }
       })
       .catch(function(err){
         console.error(err);
@@ -474,12 +491,12 @@
       // opening is the discovery one, so dump mode stays silent on the first line.
       if(voiceOn && !isDump){ try{ els.player.src = window.SS_OPENING_AUDIO || ''; els.player.play().catch(function(){}); }catch(e){} }
     }
-    els.send.disabled = true;
+    syncComposerButtons();   // mic showing, send hidden, until something is typed
     flushPending(); // a final send parked by an earlier visit that never got through
 
     // ---------- text input ----------
     function autogrow(){ els.text.style.height='auto'; els.text.style.height=Math.min(els.text.scrollHeight,140)+'px'; }
-    els.text.addEventListener('input', function(){ autogrow(); els.send.disabled = busy || els.text.value.trim()===''; });
+    els.text.addEventListener('input', function(){ autogrow(); syncComposerButtons(); });
     els.text.addEventListener('keydown', function(e){
       if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); if(!els.send.disabled) els.send.click(); }
     });
@@ -503,6 +520,21 @@
 
     // ---------- voice recording (tap to start, tap to stop) ----------
     var mediaRecorder = null, chunks = [], recording = false, stream = null, cancelling = false;
+
+    // ---------- one button, not two ----------
+    // The mic and the send arrow used to sit side by side, and the arrow was dead unless something
+    // was typed: a voice user tapped the mic, tapped it again, their answer sent itself, and the
+    // arrow just sat there greyed out looking broken. Now the slot holds exactly one button and it
+    // is always the thing to press next. Empty box: the mic. Recording: the stop square, which
+    // sends. Something typed: the send arrow.
+    function syncComposerButtons(){
+      var typed = els.text.value.trim() !== '';
+      var showSend = typed && !recording;
+      els.send.style.display = showSend ? '' : 'none';
+      els.rec.style.display  = showSend ? 'none' : '';
+      els.send.disabled = busy || !typed;
+      els.rec.disabled  = busy && !recording;
+    }
 
     function setRecUI(on){
       els.rec.classList.toggle('on', on);
@@ -545,19 +577,19 @@
           });
         };
         mediaRecorder.start();
-        recording = true; setRecUI(true);
+        recording = true; setRecUI(true); syncComposerButtons();
         els.hint.textContent='Recording. Tap the square when you are done.';
       }).catch(function(){ noMic(); });
     }
     function stopRec(){
       if(!recording) return;
-      recording = false; setRecUI(false);
+      recording = false; setRecUI(false); syncComposerButtons();
       els.hint.textContent='Got it, one sec...';
       try{ mediaRecorder.stop(); }catch(e){}
     }
     function cancelRec(){
       if(!recording) return;
-      cancelling = true; recording = false; setRecUI(false);
+      cancelling = true; recording = false; setRecUI(false); syncComposerButtons();
       els.hint.textContent='Type your answer, or tap the mic and just talk.';
       try{ mediaRecorder.stop(); }catch(e){}
     }
