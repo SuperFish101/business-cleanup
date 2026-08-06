@@ -531,8 +531,16 @@
     letter-spacing: 0.14em; color: var(--clay); display: block; margin-bottom: 12px;
   }
 
-  footer { border-top: 1px solid var(--line); padding: 30px 0 44px; }
-  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); }
+  footer.site{ background:var(--paper); border-top:1px solid var(--line); padding:52px 0; }
+  footer.site .cols{ display:flex; flex-wrap:wrap; gap:26px 48px; align-items:flex-start; justify-content:space-between; }
+  /* The wordmark reads identically in the footer and the header: same size, same case.
+     Darren, 2026-08-05. Only the wordmark itself has to match; the footer keeps its
+     own tagline line underneath. */
+  footer.site .brand b{ font-size:1.18rem; text-transform:uppercase; color:var(--ink-faint); }
+  footer.site .fine{ color:var(--ink-faint); font-size:.9rem; max-width:34ch; margin:12px 0 0; }
+  footer.site nav{ display:flex; flex-direction:column; gap:10px; font-size:.98rem; }
+  footer.site nav a{ color:var(--pine); text-decoration:underline; text-underline-offset:2px; }
+  footer.site nav a:hover{ color:var(--pine-bright); }
 
   /* ---------- benefits ---------- */
   .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 42px; }
@@ -1161,7 +1169,7 @@
         <summary>Is this just AI thrown at my business?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>No, and I'd be suspicious of anyone selling it that way. The split is <b>60% infrastructure, 30% orchestration, 10% AI</b>. In plain terms:</p>
-          <p><b>60%</b> is organizing your operation so it's clean and understandable to anyone who looks at it. <b>30%</b> is walking your actual build process and fixing the places work gets handed off and dropped &mdash; sales to build, build to trades, trades to inspection. <b>10%</b> is taking the repetitive stuff off your plate so you're back on the jobs that need you.</p>
+          <p><b>60%</b> is organizing your operation so it's clean and understandable to anyone who looks at it. <b>30%</b> is walking your actual build process and fixing the places work gets handed off and dropped: sales to build, build to trades, trades to inspection. <b>10%</b> is taking the repetitive stuff off your plate so you're back on the jobs that need you.</p>
           <p>AI on a disorganized business just makes a mess faster. The organizing is where almost all the value is. Automation goes on last, and only where it genuinely saves you time.</p>
         </div>
       </details>
@@ -1194,7 +1202,7 @@
         <summary>What happens after the 30 days?<span class="chev"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
         <div class="fa">
           <p>It's yours. You keep the system whether or not we ever work together again.</p>
-          <p>You also get the <b>90-day tune-up</b> — I come back and fix whatever drifted — and a direct line to me for quick questions. Neither costs extra.</p>
+          <p>You also get the <b>90-day tune-up</b>, where I come back and fix whatever drifted, plus a direct line to me for quick questions. Neither costs extra.</p>
         </div>
       </details>
 
@@ -1211,7 +1219,7 @@
         <div class="fa">
           <p>Straight answer: <b>I've never built a house, and I'm not going to pretend I have.</b></p>
           <p>What I'm also not is a computer guy who's never been on a site. My dad was a land surveyor and I worked construction alongside him growing up. I've built custom kitchen cabinets, poured concrete countertops, made thirty-odd pieces of furniture, and grew up on a farm. I know what the work is, and I know what a job sounds like when it's going sideways.</p>
-          <p>What I've actually done for a living is be <b>second in command at three companies</b> — untangling operations, building the systems, working out why things kept falling over and fixing it. That's the job here. <b>You build the houses. I fix the business around them.</b></p>
+          <p>What I've actually done for a living is run <b>other people's companies</b>, sometimes as the right hand to the owner, sometimes with the keys handed to me outright. Untangling operations, building the systems, working out why things kept falling over and fixing it. That's the job here. <b>You build the houses. I fix the business around them.</b></p>
         </div>
       </details>
 
@@ -1253,13 +1261,30 @@
   </div>
 </section>
 
-<footer>
+<footer class="site">
   <div class="wrap">
-    <span>THE 30-DAY OPERATION CLEANUP</span>
+    <div class="cols">
+      <div>
+        <a class="brand" href="/" aria-label="Soares Systems home">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-hidden="true" focusable="false">
+            <rect width="100" height="100" rx="20" fill="#1C5A43"/>
+            <rect x="27" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+            <rect x="52" y="27" width="21" height="21" rx="5" fill="#FFFFFF"/>
+            <rect x="27" y="52" width="21" height="21" rx="5" fill="#D8A24A"/>
+            <rect x="52" y="52" width="21" height="21" rx="5" fill="#FFFFFF"/>
+          </svg>
+          <b>Soares Systems</b>
+        </a>
+        <p class="fine">Fundamentals first, AI tools last.</p>
+      </div>
+      <nav aria-label="Footer">
 <!-- ARTICLES:FOOTERLINK -->
         <a href="/articles/">Articles</a>
 <!-- /ARTICLES:FOOTERLINK -->
-    <span>Organize · Orchestrate · Automate</span>
+        <a href="mailto:darren@soaressystems.com">darren@soaressystems.com</a>
+        <a href="https://cal.com/darren-soares/15min" data-cal-link="darren-soares/15min" data-cal-namespace="intro" data-cal-config='{"layout":"month_view"}' target="_blank" rel="noopener">Book a free intro call</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
