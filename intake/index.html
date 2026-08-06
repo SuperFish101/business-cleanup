@@ -141,6 +141,11 @@
     .voice[aria-pressed="true"] .von{display:block}
     .wrapup{background:none; border:none; cursor:pointer; color:var(--green); font-size:13px;
       text-decoration:underline; font-family:inherit; min-height:38px; padding:0 4px}
+    /* Dump mode: sending is the one irreversible action on the page, so it stops being a quiet
+       text link and becomes a button you have to mean to press. */
+    .wrapup.final{background:var(--green); color:#fff; border-radius:10px; text-decoration:none;
+      padding:0 14px; font-weight:600; font-size:13.5px}
+    .wrapup.final:hover{background:var(--green-bright)}
     .hint{max-width:640px; margin:6px auto 0; font-size:12px; color:var(--ink-faint); text-align:center}
     @media (prefers-reduced-motion:reduce){ .rec.on{animation:none} .iconbtn{transition:none} }
 
@@ -177,7 +182,7 @@
       <!-- No start gate. The first question is on screen the moment the page opens, so people can
            read it before deciding to talk. The pitch that used to live here is now the #ask band on
            the sales pages (website/current-site-notes.md). -->
-      <div class="note">About ten minutes, or faster if you pour it all out in one go. Talk or type, whichever is easier. Wrap it up any time.</div>
+      <div class="note" id="note">About ten minutes, or faster if you pour it all out in one go. Talk or type, whichever is easier. Wrap it up any time.</div>
       <!-- Messages get appended here -->
     </div>
   </main>
@@ -220,9 +225,44 @@
     var BOOKING_URL     = "https://soaressystems.com/call/"; // the private booking page (website/current-site-notes.md)
     // =============================================================================
 
-    // The interview's fixed first line. The page shows and speaks it instantly (no server
-    // round-trip); the n8n prompt expects the conversation to open with it and continues from there.
-    var OPENING_TEXT = "Hey. Tell me what eats up your time. The repetitive stuff you just want off your plate. No right answers, talk as long as you want, and this is recorded so Darren can see how to help you. If you'd rather pour it all out at once, go ahead, I'll follow along. Type your answers or tap the mic and just talk, and flip on Read replies out loud below if you want to hear me back. First up, what should I call you?";
+    // ===== MODE =====
+    // Two jobs, one page. "discovery" interviews a prospect and closes on the booking link.
+    // "talk" lets someone Darren already knows say whatever they want for as long as they want,
+    // and files their words into that client's own repo. The mode arrives as ?mode=talk (usually
+    // via the /talk/ redirect, which also carries ?k=<client key>) and is remembered in this
+    // browser afterwards, so a saved home-screen link keeps working even if it gets stripped back
+    // to a bare address.
+    //
+    // On the wire it is still called "dump": the server, the docs, and the roster all use that
+    // word, and renaming a proven workflow to match a label nobody outside sees would be churn.
+    // "talk" is the client's word; "dump" is ours. The two meet on the line marked below.
+    // n8n can also flip the mode mid-session (someone SAYS the override phrase into the mic, which
+    // this page never sees as text), so a mode coming back in a response is trusted and stored.
+    // Full design: ../intake/dump-mode.md
+    var MKEY = 'ss_intake_mode', KKEY = 'ss_intake_key';
+    var qs = new URLSearchParams(location.search);
+    var mode = qs.get('mode') || '', clientKey = qs.get('k') || '';
+    try {
+      if (mode) localStorage.setItem(MKEY, mode); else mode = localStorage.getItem(MKEY) || 'discovery';
+      if (clientKey) localStorage.setItem(KKEY, clientKey); else clientKey = localStorage.getItem(KKEY) || '';
+    } catch (e) { mode = mode || 'discovery'; }
+    // Where the client's word meets ours. "dump" is still accepted so a browser that stored the
+    // old value, or a link sent before the rename, keeps working instead of silently falling back
+    // to the sales interview.
+    var isDump = mode === 'talk' || mode === 'dump';
+    var wireMode = isDump ? 'dump' : 'discovery';   // what the server is told
+
+    // The fixed first line. The page shows and speaks it instantly (no server round-trip); the n8n
+    // prompt expects the conversation to open with it and continues from there.
+    var OPENING_TEXT = isDump
+      ? "Hey. Before you start, who am I talking to? Just your first name is fine."
+      : "Hey. Tell me what eats up your time. The repetitive stuff you just want off your plate. No right answers, talk as long as you want, and this is recorded so Darren can see how to help you. If you'd rather pour it all out at once, go ahead, I'll follow along. Type your answers or tap the mic and just talk, and flip on Read replies out loud below if you want to hear me back. First up, what should I call you?";
+
+    if (isDump) {
+      document.title = "Talk to Darren | Soares Systems";
+      var mdesc = document.querySelector('meta[name="description"]');
+      if (mdesc) mdesc.setAttribute('content', 'Say what is on your mind. Darren gets every word.');
+    }
 
     var els = {
       wrap: document.getElementById('wrap'),
@@ -236,8 +276,18 @@
       voice: document.getElementById('voice'),
       voicelabel: document.getElementById('voicelabel'),
       player: document.getElementById('player'),
+      note: document.getElementById('note'),
       main: document.querySelector('main')
     };
+
+    // Dump mode is a conversation, not a form, so the wording has to say so: nothing leaves this
+    // page until they choose to send it, and stopping to think is expected rather than a drop-off.
+    if (isDump) {
+      els.note.textContent = "Say what you want to talk about, then tell me everything about it. Take as long as you like. Stop and come back whenever, nothing is lost.";
+      els.wrapup.textContent = "Done, send it to Darren";
+      els.wrapup.classList.add('final');
+      els.hint.textContent = "Type or tap the mic. Nothing goes to Darren until you tap Done.";
+    }
 
     var MIC_ICON = '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>';
     var STOP_ICON = '<rect x="6.5" y="6.5" width="11" height="11" rx="2.5" fill="currentColor"/>';
@@ -250,7 +300,9 @@
     try{ voiceOn = localStorage.getItem(VKEY) === '1'; }catch(e){}
 
     // ---- session id (stable across reloads so a session can resume) ----
-    var SKEY = 'ss_intake_session';
+    // Scoped to the mode so a client's dump never resumes into a half-finished discovery interview
+    // (or the other way round) on a browser that has done both.
+    var SKEY = 'ss_intake_session' + (isDump ? '_dump' : '');
     var sessionId = localStorage.getItem(SKEY);
     if(!sessionId){
       sessionId = 'ss_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10);
@@ -297,18 +349,33 @@
       els.composer.classList.add('hidden');
       var b = document.createElement('div');
       b.className = 'book';
-      b.innerHTML = '<h2>Thanks. One last step.</h2>' +
-        '<p>' + (msg || 'Grab a time with Darren below. He will have read everything you shared before you talk.') + '</p>' +
-        '<a class="btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book a time with Darren</a>';
+      // Dump mode never sells. They said their piece, it is filed, and that is the end of it.
+      b.innerHTML = isDump
+        ? '<h2>Got it.</h2><p>' + (msg || 'Darren has all of it, word for word. He will come back to you.') + '</p>'
+        : '<h2>Thanks. One last step.</h2>' +
+          '<p>' + (msg || 'Grab a time with Darren below. He will have read everything you shared before you talk.') + '</p>' +
+          '<a class="btn" href="' + BOOKING_URL + '" target="_blank" rel="noopener">Book a time with Darren</a>';
       els.wrap.appendChild(b); scroll();
-      localStorage.removeItem(TKEY); // interview done, clear the resume cache
-      // They finished and got handed the booking link. answers_given rides along so a completion
-      // can be compared against the intake_answer counts from everyone who quit part way.
-      try { gtag('event', 'intake_complete', { answers_given: answered }); } catch (e) {}
+      localStorage.removeItem(TKEY); // done, clear the resume cache
+      // They finished. answers_given rides along so a completion can be compared against the
+      // intake_answer counts from everyone who quit part way.
+      try { gtag('event', 'intake_complete', { answers_given: answered, mode: mode }); } catch (e) {}
     }
-    function failSoft(){
+    // Every retry has already failed by the time this runs.
+    // Discovery: hand them the booking link, Darren picks it up from their side.
+    // Dump: never send a client away and never claim it arrived when it did not. The words are
+    // parked in this browser and n8n already holds every turn they took, so the honest line is
+    // that it is saved and will finish sending itself.
+    function failSoft(wasFinal){
       typing(false); busy=false;
       if(pendingVoiceBubble){ pendingVoiceBubble.textContent='(voice answer)'; pendingVoiceBubble=null; }
+      if(isDump){
+        bubble('them', wasFinal
+          ? "My connection dropped, but nothing you said is lost. It's saved on this device and will finish sending itself. You can close this."
+          : "My connection dropped for a second. Nothing you said is lost. Try that again in a moment.");
+        if(wasFinal){ finished = true; els.composer.classList.add('hidden'); }
+        return;
+      }
       bubble('them', "Sorry, something hiccuped on my end. Don't worry, nothing you said was lost.");
       showBooking("Grab a time with Darren here and he'll pick it up from your side.");
     }
@@ -331,12 +398,32 @@
       busy = true; els.send.disabled = true; typing(true);
       payload.sessionId = sessionId; payload.secret = SHARED_SECRET; payload.history = history();
       payload.speak = voiceOn; // n8n: skip the text-to-speech node when this is false
+      payload.mode = wireMode; // discovery | dump (never "talk" — that word stops at the page)
+      payload.k = clientKey;   // which client's repo a dump belongs in (empty in discovery)
+      send(payload, isVoice, 0);
+    }
+
+    // One send, with retries. A client's words are not allowed to die because a request hiccuped,
+    // so a failed turn backs off and tries again before anything is admitted on screen. The final
+    // turn (wrap) is also parked in localStorage first, so even a closed laptop resends on return.
+    var PKEY = 'ss_intake_pending_' + sessionId;
+    function send(payload, isVoice, attempt){
+      if(payload.wrap){ try{ localStorage.setItem(PKEY, JSON.stringify(payload)); }catch(e){} }
       fetch(N8N_WEBHOOK_URL, {
         method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
       })
       .then(function(r){ if(!r.ok) throw new Error('bad status ' + r.status); return r.json(); })
       .then(function(res){
         typing(false); busy = false;
+        try{ localStorage.removeItem(PKEY); }catch(e){}
+        // n8n owns the mode once a session starts: the override phrase can be SPOKEN, and this page
+        // only ever sees audio, so the server is the only thing that can know it was said. It
+        // answers in our word ("dump"); the page switches to the client's word for anything it
+        // shows on screen.
+        if(res.mode === 'dump' && !isDump){
+          mode = 'talk'; isDump = true; wireMode = 'dump';
+          try{ localStorage.setItem(MKEY, mode); }catch(e){}
+        }
         // fill in a voice answer's transcription (so the record + resume are complete)
         if(isVoice){
           var said = res.answerText || '(voice answer)';
@@ -349,7 +436,19 @@
         if(res.done){ showBooking(res.closingText); }
         else { els.send.disabled = els.text.value.trim() === ''; }
       })
-      .catch(function(err){ console.error(err); failSoft(); });
+      .catch(function(err){
+        console.error(err);
+        if(attempt < 3){ setTimeout(function(){ send(payload, isVoice, attempt + 1); }, 1500 * (attempt + 1)); return; }
+        failSoft(payload.wrap === true);
+      });
+    }
+
+    // A parked final send from a previous visit. Fires quietly on load; if it works, they see the
+    // thank-you and never learn anything went wrong.
+    function flushPending(){
+      var parked; try{ parked = localStorage.getItem(PKEY); }catch(e){ return; }
+      if(!parked) return;
+      try{ send(JSON.parse(parked), false, 0); }catch(e){}
     }
 
     // ---------- reading replies out loud ----------
@@ -371,10 +470,12 @@
     // costs no server turn) and the composer is ready. The first webhook call is their first answer.
     if(!restoreLog()){
       bubble('them', OPENING_TEXT); pushLog('them', OPENING_TEXT);
-      // Only speak the opening if they already asked for voice on an earlier visit.
-      if(voiceOn){ try{ els.player.src = window.SS_OPENING_AUDIO || ''; els.player.play().catch(function(){}); }catch(e){} }
+      // Only speak the opening if they already asked for voice on an earlier visit. The recorded
+      // opening is the discovery one, so dump mode stays silent on the first line.
+      if(voiceOn && !isDump){ try{ els.player.src = window.SS_OPENING_AUDIO || ''; els.player.play().catch(function(){}); }catch(e){} }
     }
     els.send.disabled = true;
+    flushPending(); // a final send parked by an earlier visit that never got through
 
     // ---------- text input ----------
     function autogrow(){ els.text.style.height='auto'; els.text.style.height=Math.min(els.text.scrollHeight,140)+'px'; }
@@ -395,7 +496,8 @@
     els.wrapup.addEventListener('click', function(){
       if(busy || finished) return;
       stopVoice();
-      bubble('you', "Let's wrap this up."); pushLog('you', "Let's wrap this up.");
+      var line = isDump ? "That's everything. Send it to Darren." : "Let's wrap this up.";
+      bubble('you', line); pushLog('you', line);
       turn({ type:'answer', wrap:true }, false);
     });
 
